@@ -1,0 +1,19 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": false,
+  "code": "runner-unavailable",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "openapi-unavailable",
+      "severity": "error",
+      "message": "GET https://api.example.test/v0/openapi.json: HTTP 404",
+      "path": "https://api.example.test/v0/openapi.json",
+      "fix": "Check the --openapi or HAIVEN_OPENAPI value and network access."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

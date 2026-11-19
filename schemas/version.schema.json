@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:version:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string",
+          "description": "GOOS/GOARCH of this binary."
+        }
+      },
+      "type": "object",
+      "required": [
+        "version",
+        "platform"
+      ]
+    }
+  ],
+  "title": "haiven version data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

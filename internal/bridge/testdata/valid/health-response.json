@@ -1,0 +1,2 @@
+{"schema": "haiven.dev/bridge-command/v1", "id": "r1", "command": "health", "ok": true, "code": "ok",
+ "data": {"engine": "godot", "engine_version": "4.5.1.stable", "plugin_version": "0.3.0", "playing": false, "implemented": ["health", "play", "stop"]}}

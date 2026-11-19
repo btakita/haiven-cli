@@ -1,0 +1,2 @@
+{"schema": "haiven.dev/bridge-command/v1", "id": "r4", "command": "run-scenario", "ok": false, "code": "scenario-failed",
+ "data": {"suite": "gaming-client/v0", "scenario": "auth.expired.reauth", "passed": false, "failures": ["expected auth.success, got auth.failure"]}}

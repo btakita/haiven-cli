@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:sdk-fake-server:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Base http:// URL (the bound address)."
+        },
+        "ws_url": {
+          "type": "string",
+          "description": "The gaming socket: ws://\u003caddr\u003e/v0/ws."
+        },
+        "control_url": {
+          "type": "string",
+          "description": "Base of the unauthenticated control levers: push, expire, answer-deferred, report-dropped (POST, ?user= selects one user) and stats (GET)."
+        },
+        "subprotocol": {
+          "type": "string",
+          "description": "Accepted when a client offers it; never required."
+        },
+        "tokens": {
+          "items": {
+            "properties": {
+              "value": {
+                "type": "string"
+              },
+              "user_id": {
+                "type": "string"
+              },
+              "valid": {
+                "type": "boolean"
+              },
+              "expired": {
+                "type": "boolean"
+              }
+            },
+            "type": "object",
+            "required": [
+              "value",
+              "user_id",
+              "valid",
+              "expired"
+            ]
+          },
+          "type": "array",
+          "description": "The fake verifier's tokens. Fixture values, not credentials."
+        },
+        "routes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Message types the router answers; ping is always routed."
+        },
+        "rate_limited": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "deferred": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "record": {
+          "type": "string",
+          "description": "The --record transcript path, relative to the working directory, slash-separated."
+        },
+        "recorded_entries": {
+          "type": "integer"
+        },
+        "stats": {
+          "properties": {
+            "connections": {
+              "type": "integer",
+              "description": "Connections accepted."
+            },
+            "open": {
+              "type": "integer",
+              "description": "Connections still open."
+            },
+            "client_frames": {
+              "type": "integer"
+            },
+            "server_frames": {
+              "type": "integer",
+              "description": "Frames written to clients."
+            },
+            "dropped_inbound": {
+              "type": "integer",
+              "description": "Client frames refused for an expired session."
+            },
+            "dropped_outbound": {
+              "type": "integer",
+              "description": "Server frames the pump discarded for an expired session."
+            },
+            "policy_closes": {
+              "type": "integer",
+              "description": "Handshakes refused with close code 1008."
+            }
+          },
+          "type": "object",
+          "required": [
+            "connections",
+            "open",
+            "client_frames",
+            "server_frames",
+            "dropped_inbound",
+            "dropped_outbound",
+            "policy_closes"
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "url",
+        "ws_url",
+        "control_url",
+        "subprotocol",
+        "tokens",
+        "routes",
+        "rate_limited",
+        "deferred",
+        "recorded_entries",
+        "stats"
+      ]
+    }
+  ],
+  "title": "haiven sdk fake-server data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

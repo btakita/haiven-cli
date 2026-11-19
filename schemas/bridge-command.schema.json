@@ -1,0 +1,559 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:bridge-command:v1",
+  "$defs": {
+    "args.capture-log": {
+      "properties": {
+        "since": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Return lines with seq greater than this; 0 or absent for the oldest retained."
+        },
+        "max_lines": {
+          "type": "integer",
+          "maximum": 10000,
+          "minimum": 1,
+          "description": "Upper bound on lines returned (default 500)."
+        }
+      },
+      "type": "object"
+    },
+    "args.health": {
+      "properties": {},
+      "type": "object",
+      "description": "No arguments."
+    },
+    "args.play": {
+      "properties": {
+        "scene": {
+          "type": "string",
+          "description": "Project-relative scene path; the main scene when absent."
+        }
+      },
+      "type": "object"
+    },
+    "args.run-scenario": {
+      "properties": {
+        "suite": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1,
+          "description": "Suite id, e.g. gaming-client/v0."
+        },
+        "scenario": {
+          "type": "string",
+          "maxLength": 256,
+          "minLength": 1,
+          "description": "Scenario id within the suite."
+        }
+      },
+      "type": "object",
+      "required": [
+        "suite",
+        "scenario"
+      ]
+    },
+    "args.screenshot": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Output path, project-relative; the bridge picks one under its scratch directory when absent."
+        }
+      },
+      "type": "object"
+    },
+    "args.stop": {
+      "properties": {},
+      "type": "object",
+      "description": "No arguments."
+    },
+    "data.capture-log": {
+      "properties": {
+        "lines": {
+          "items": {
+            "properties": {
+              "seq": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "Monotonic line number."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "debug",
+                  "info",
+                  "warning",
+                  "error"
+                ]
+              },
+              "message": {
+                "type": "string",
+                "description": "The line, after the bridge's secret redaction."
+              }
+            },
+            "type": "object",
+            "required": [
+              "seq",
+              "level",
+              "message"
+            ]
+          },
+          "type": "array"
+        },
+        "next": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Pass as since to continue."
+        },
+        "truncated": {
+          "type": "boolean",
+          "description": "True when more lines were available than max_lines."
+        }
+      },
+      "type": "object",
+      "required": [
+        "lines",
+        "next",
+        "truncated"
+      ]
+    },
+    "data.health": {
+      "properties": {
+        "engine": {
+          "type": "string",
+          "enum": [
+            "godot",
+            "unity",
+            "unreal",
+            "roblox"
+          ],
+          "description": "The engine this bridge runs in."
+        },
+        "engine_version": {
+          "type": "string",
+          "description": "The engine's own version string."
+        },
+        "plugin_version": {
+          "type": "string",
+          "description": "The Haiven plugin or addon version."
+        },
+        "sdk_version": {
+          "type": "string",
+          "description": "The Haiven SDK version the plugin bundles, when known."
+        },
+        "playing": {
+          "type": "boolean",
+          "description": "True while the editor is in play mode."
+        },
+        "implemented": {
+          "items": {
+            "type": "string",
+            "enum": [
+              "health",
+              "play",
+              "stop",
+              "run-scenario",
+              "capture-log",
+              "screenshot"
+            ]
+          },
+          "type": "array",
+          "description": "Commands this bridge implements; the rest answer unimplemented."
+        }
+      },
+      "type": "object",
+      "required": [
+        "engine",
+        "engine_version",
+        "plugin_version",
+        "playing",
+        "implemented"
+      ]
+    },
+    "data.play": {
+      "properties": {
+        "playing": {
+          "type": "boolean",
+          "const": true
+        },
+        "scene": {
+          "type": "string",
+          "description": "The scene that is playing, project-relative."
+        }
+      },
+      "type": "object",
+      "required": [
+        "playing"
+      ]
+    },
+    "data.run-scenario": {
+      "properties": {
+        "suite": {
+          "type": "string"
+        },
+        "scenario": {
+          "type": "string"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "failures": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "One entry per failed expectation; empty when passed."
+        }
+      },
+      "type": "object",
+      "required": [
+        "suite",
+        "scenario",
+        "passed",
+        "failures"
+      ],
+      "description": "Present for ok and for scenario-failed."
+    },
+    "data.screenshot": {
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Where the image was written, project-relative."
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "format": {
+          "type": "string",
+          "enum": [
+            "png"
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "path",
+        "width",
+        "height",
+        "format"
+      ]
+    },
+    "data.stop": {
+      "properties": {
+        "playing": {
+          "type": "boolean",
+          "const": false
+        }
+      },
+      "type": "object",
+      "required": [
+        "playing"
+      ]
+    },
+    "request": {
+      "oneOf": [
+        {
+          "properties": {
+            "command": {
+              "const": "health"
+            },
+            "args": {
+              "$ref": "#/$defs/args.health"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "play"
+            },
+            "args": {
+              "$ref": "#/$defs/args.play"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "stop"
+            },
+            "args": {
+              "$ref": "#/$defs/args.stop"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "run-scenario"
+            },
+            "args": {
+              "$ref": "#/$defs/args.run-scenario"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "capture-log"
+            },
+            "args": {
+              "$ref": "#/$defs/args.capture-log"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "screenshot"
+            },
+            "args": {
+              "$ref": "#/$defs/args.screenshot"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "haiven.dev/bridge-command/v1"
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1,
+          "description": "Correlation id chosen by the caller; the response echoes it."
+        },
+        "command": {
+          "type": "string",
+          "enum": [
+            "health",
+            "play",
+            "stop",
+            "run-scenario",
+            "capture-log",
+            "screenshot"
+          ],
+          "description": "The command (closed vocabulary)."
+        },
+        "args": {
+          "type": "object",
+          "description": "The command's arguments; {} when it takes none."
+        }
+      },
+      "type": "object",
+      "required": [
+        "schema",
+        "id",
+        "command",
+        "args"
+      ],
+      "description": "A command sent to the bridge."
+    },
+    "response": {
+      "oneOf": [
+        {
+          "properties": {
+            "command": {
+              "const": "health"
+            },
+            "data": {
+              "$ref": "#/$defs/data.health"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "play"
+            },
+            "data": {
+              "$ref": "#/$defs/data.play"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "stop"
+            },
+            "data": {
+              "$ref": "#/$defs/data.stop"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "run-scenario"
+            },
+            "data": {
+              "$ref": "#/$defs/data.run-scenario"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "capture-log"
+            },
+            "data": {
+              "$ref": "#/$defs/data.capture-log"
+            }
+          }
+        },
+        {
+          "properties": {
+            "command": {
+              "const": "screenshot"
+            },
+            "data": {
+              "$ref": "#/$defs/data.screenshot"
+            }
+          }
+        }
+      ],
+      "if": {
+        "properties": {
+          "code": {
+            "const": "ok"
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
+      "then": {
+        "properties": {
+          "ok": {
+            "const": true
+          }
+        },
+        "required": [
+          "data"
+        ]
+      },
+      "else": {
+        "properties": {
+          "ok": {
+            "const": false
+          }
+        }
+      },
+      "properties": {
+        "schema": {
+          "type": "string",
+          "const": "haiven.dev/bridge-command/v1"
+        },
+        "id": {
+          "type": "string",
+          "maxLength": 128,
+          "minLength": 1,
+          "description": "Correlation id chosen by the caller; the response echoes it."
+        },
+        "command": {
+          "type": "string",
+          "enum": [
+            "health",
+            "play",
+            "stop",
+            "run-scenario",
+            "capture-log",
+            "screenshot"
+          ],
+          "description": "The command (closed vocabulary)."
+        },
+        "ok": {
+          "type": "boolean",
+          "description": "True exactly when code is ok."
+        },
+        "code": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "unknown-command",
+            "unimplemented",
+            "invalid-args",
+            "invalid-state",
+            "unauthorized",
+            "busy",
+            "timeout",
+            "scenario-failed",
+            "engine-error"
+          ],
+          "description": "Outcome (closed vocabulary). x-haiven-outcomes maps each to the cli-result/v1 outcome `haiven editor` reports.",
+          "x-haiven-outcomes": {
+            "busy": "runner-unavailable",
+            "engine-error": "internal",
+            "invalid-args": "usage",
+            "invalid-state": "usage",
+            "ok": "ok",
+            "scenario-failed": "conformance-failed",
+            "timeout": "runner-unavailable",
+            "unauthorized": "runner-unavailable",
+            "unimplemented": "runner-unavailable",
+            "unknown-command": "usage"
+          }
+        },
+        "message": {
+          "type": "string",
+          "description": "Human prose; free to change. Branch on code."
+        },
+        "data": {
+          "type": "object",
+          "description": "The command's result: required for ok, and present for scenario-failed."
+        }
+      },
+      "type": "object",
+      "required": [
+        "schema",
+        "id",
+        "command",
+        "ok",
+        "code"
+      ],
+      "description": "The bridge's answer to one request."
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/request"
+    },
+    {
+      "$ref": "#/$defs/response"
+    }
+  ],
+  "title": "haiven.dev/bridge-command/v1",
+  "description": "A request to, or a response from, an engine editor bridge. Transport-neutral; `haiven editor \u003ccommand\u003e` wraps it in cli-result/v1.",
+  "x-haiven-commands": [
+    {
+      "command": "health",
+      "summary": "Report the engine, plugin and play state, and which commands this bridge implements."
+    },
+    {
+      "command": "play",
+      "summary": "Enter play mode, optionally in one scene."
+    },
+    {
+      "command": "stop",
+      "summary": "Leave play mode."
+    },
+    {
+      "command": "run-scenario",
+      "summary": "Run one conformance scenario in the engine (editor-bridge/v0 and the in-engine suites)."
+    },
+    {
+      "command": "capture-log",
+      "summary": "Return editor and game log lines after a cursor, bounded."
+    },
+    {
+      "command": "screenshot",
+      "summary": "Capture the game or editor viewport to a PNG."
+    }
+  ]
+}

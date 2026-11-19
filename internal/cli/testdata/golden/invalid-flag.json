@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "version",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "invalid-flag",
+      "severity": "error",
+      "message": "flag provided but not defined: -bogus; usage: haiven version",
+      "fix": "Run `haiven help <command>` for the accepted flags."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

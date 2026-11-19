@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api call",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "missing-parameter",
+      "severity": "error",
+      "message": "form field \"code_verifier\" is required (-f code_verifier=...)",
+      "fix": "Pass it with -p name=value (path), -q name=value (query) or -f name=value (form)."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

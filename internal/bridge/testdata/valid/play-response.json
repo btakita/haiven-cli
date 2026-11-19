@@ -1,0 +1,1 @@
+{"schema": "haiven.dev/bridge-command/v1", "id": "r2", "command": "play", "ok": true, "code": "ok", "data": {"playing": true, "scene": "res://main.tscn"}}

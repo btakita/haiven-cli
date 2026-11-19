@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "explain",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "code": "invalid-project-file",
+    "kind": "diagnostic",
+    "outcome": "invalid-manifest",
+    "exit": 1,
+    "summary": "haiven.toml is not valid TOML or does not match the project schema.",
+    "fix": "Fix haiven.toml; `haiven schema project` prints its schema."
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

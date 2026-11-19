@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:fake-server-transcript:v1",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "haiven.dev/fake-server-transcript/v1",
+      "description": "Always haiven.dev/fake-server-transcript/v1."
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Position in the transcript, across every connection."
+    },
+    "conn": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Connection number, in accept order."
+    },
+    "event": {
+      "type": "string",
+      "enum": [
+        "open",
+        "client",
+        "server",
+        "dropped-inbound",
+        "dropped-outbound",
+        "close",
+        "disconnect"
+      ]
+    },
+    "frame": {
+      "description": "The frame, for client, server and dropped events. A client text message that is not JSON is recorded as a string."
+    },
+    "code": {
+      "type": "integer",
+      "description": "WebSocket close code, for close."
+    },
+    "reason": {
+      "type": "string"
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema",
+    "seq",
+    "conn",
+    "event"
+  ],
+  "title": "haiven.dev/fake-server-transcript/v1"
+}

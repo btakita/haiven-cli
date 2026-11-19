@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api call",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "ambiguous-operation",
+      "severity": "error",
+      "message": "GET /apps/tags is published by example-studio-http-api, gaming/v0",
+      "fix": "Pass --surface with one of the surfaces named in the message."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

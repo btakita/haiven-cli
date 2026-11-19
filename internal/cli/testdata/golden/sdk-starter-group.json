@@ -1,0 +1,20 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk starter",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "unknown-command",
+      "severity": "error",
+      "message": "haiven sdk starter needs a subcommand: create, describe, integrate, list, run, verify",
+      "fix": "Run `haiven capabilities` to list the commands."
+    }
+  ],
+  "next": [
+    "haiven help sdk starter"
+  ],
+  "truncated": false
+}

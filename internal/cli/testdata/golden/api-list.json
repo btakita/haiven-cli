@@ -1,0 +1,131 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "surfaces": [
+      {
+        "surface": "example-studio-http-api",
+        "title": "Example Studio HTTP API",
+        "version": "0.1.0-preview",
+        "server": "https://haiven.example/v0",
+        "source": "openapi/studio.json",
+        "operations": 2
+      },
+      {
+        "surface": "gaming/v0",
+        "title": "Example Gaming HTTP API",
+        "version": "0.1.0",
+        "server": "https://haiven.example/v0",
+        "source": "openapi/gaming.json",
+        "operations": 6
+      }
+    ],
+    "operations": [
+      {
+        "surface": "example-studio-http-api",
+        "method": "GET",
+        "path": "/apps/tags",
+        "summary": "Every tag, again.",
+        "requires_auth": false,
+        "parameters": [],
+        "body": []
+      },
+      {
+        "surface": "example-studio-http-api",
+        "method": "GET",
+        "path": "/studios",
+        "summary": "Your studios.",
+        "requires_auth": true,
+        "parameters": [],
+        "body": []
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "GET",
+        "path": "/apps",
+        "summary": "The store catalog.",
+        "requires_auth": false,
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": false
+          }
+        ],
+        "body": []
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "GET",
+        "path": "/apps/tags",
+        "summary": "Every tag.",
+        "requires_auth": false,
+        "parameters": [],
+        "body": []
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "GET",
+        "path": "/apps/{app_id}",
+        "summary": "One app.",
+        "requires_auth": false,
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "body": []
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "POST",
+        "path": "/apps/{app_id}/report",
+        "summary": "Report an app.",
+        "requires_auth": true,
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "body": [
+          "application/json"
+        ]
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "POST",
+        "path": "/auth/handoff/exchange",
+        "summary": "Exchange a handoff code.",
+        "requires_auth": false,
+        "parameters": [],
+        "body": [
+          "application/x-www-form-urlencoded"
+        ]
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "GET",
+        "path": "/me",
+        "summary": "The signed-in account",
+        "requires_auth": true,
+        "parameters": [],
+        "body": []
+      }
+    ]
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

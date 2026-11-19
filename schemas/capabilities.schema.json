@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:capabilities:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "cli_version": {
+          "type": "string"
+        },
+        "platform": {
+          "type": "string"
+        },
+        "result_schema": {
+          "type": "string"
+        },
+        "commands": {
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The full command name, space-separated for a command in a group."
+              },
+              "group": {
+                "type": "string",
+                "description": "The group the command belongs to; absent for a top-level command."
+              },
+              "usage": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "network": {
+                "type": "boolean",
+                "description": "True when the command may make network calls."
+              },
+              "reads_project": {
+                "type": "boolean",
+                "description": "True when the command reads haiven.toml."
+              }
+            },
+            "type": "object",
+            "required": [
+              "name",
+              "usage",
+              "summary",
+              "network",
+              "reads_project"
+            ]
+          },
+          "type": "array",
+          "description": "Every command, top-level first, then each group's commands together."
+        },
+        "groups": {
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "commands": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "description": "Full names of the group's commands."
+              }
+            },
+            "type": "object",
+            "required": [
+              "name",
+              "summary",
+              "commands"
+            ]
+          },
+          "type": "array",
+          "description": "Command groups: haiven \u003cgroup\u003e \u003ccommand\u003e."
+        },
+        "schemas": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Names accepted by haiven schema."
+        },
+        "outcomes": {
+          "items": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "drift",
+              "invalid-manifest",
+              "lock-mismatch",
+              "conformance-failed",
+              "runner-unavailable",
+              "toolchain-missing",
+              "usage",
+              "internal",
+              "api-error"
+            ],
+            "description": "Run outcome (closed vocabulary)."
+          },
+          "type": "array"
+        },
+        "diagnostic_codes": {
+          "items": {
+            "type": "string",
+            "enum": [
+              "unknown-command",
+              "invalid-flag",
+              "missing-argument",
+              "unexpected-argument",
+              "unknown-schema",
+              "unknown-code",
+              "project-not-found",
+              "invalid-project-file",
+              "invalid-version-pin",
+              "pinned-version-unavailable",
+              "pinned-checksum-mismatch",
+              "internal-error",
+              "openapi-not-configured",
+              "openapi-unavailable",
+              "invalid-openapi",
+              "unknown-operation",
+              "ambiguous-operation",
+              "missing-parameter",
+              "unknown-parameter",
+              "invalid-request-body",
+              "api-unreachable",
+              "api-unauthorized",
+              "api-http-error",
+              "fake-server-unavailable",
+              "starter-catalog-invalid",
+              "starter-catalog-untrusted",
+              "starter-unknown",
+              "starter-runner-unavailable",
+              "starter-runner-failed",
+              "starter-manual-required",
+              "starter-journey-unsupported",
+              "starter-unsafe-destination",
+              "starter-dirty-project",
+              "starter-confirmation-required",
+              "starter-evidence-untrusted",
+              "starter-lock-not-found",
+              "starter-drift",
+              "demo-unknown",
+              "demo-revision-mismatch",
+              "demo-open-failed",
+              "demo-build-failed",
+              "demo-register-failed",
+              "contract-artifact-unverified",
+              "starter-unversioned-project",
+              "starter-lock-changed",
+              "malformed-path-escape"
+            ],
+            "description": "Diagnostic code (closed vocabulary)."
+          },
+          "type": "array"
+        },
+        "exit_codes": {
+          "items": {
+            "properties": {
+              "exit": {
+                "type": "integer"
+              },
+              "meaning": {
+                "type": "string"
+              },
+              "outcomes": {
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "ok",
+                    "drift",
+                    "invalid-manifest",
+                    "lock-mismatch",
+                    "conformance-failed",
+                    "runner-unavailable",
+                    "toolchain-missing",
+                    "usage",
+                    "internal",
+                    "api-error"
+                  ],
+                  "description": "Run outcome (closed vocabulary)."
+                },
+                "type": "array"
+              }
+            },
+            "type": "object",
+            "required": [
+              "exit",
+              "meaning",
+              "outcomes"
+            ]
+          },
+          "type": "array"
+        },
+        "project": {
+          "properties": {
+            "file": {
+              "type": "string",
+              "description": "haiven.toml path relative to the working directory, slash-separated."
+            },
+            "valid": {
+              "type": "boolean"
+            },
+            "pinned_version": {
+              "type": "string"
+            },
+            "pin": {
+              "type": "string",
+              "enum": [
+                "unpinned",
+                "matches",
+                "dev-build",
+                "already-reexecuted",
+                "pinned-release"
+              ]
+            }
+          },
+          "type": "object",
+          "required": [
+            "file",
+            "valid"
+          ],
+          "description": "Present when a haiven.toml was found."
+        }
+      },
+      "type": "object",
+      "required": [
+        "cli_version",
+        "platform",
+        "result_schema",
+        "commands",
+        "groups",
+        "schemas",
+        "outcomes",
+        "diagnostic_codes",
+        "exit_codes"
+      ]
+    }
+  ],
+  "title": "haiven capabilities data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

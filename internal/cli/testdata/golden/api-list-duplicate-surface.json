@@ -1,0 +1,19 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": false,
+  "code": "invalid-manifest",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "invalid-openapi",
+      "severity": "error",
+      "message": "surface \"gaming/v0\" is described by both openapi/gaming.json and copy/gaming.json; set x-haiven-surface in one of them",
+      "path": "copy/gaming.json",
+      "fix": "Point --openapi at the public API description; give each description its own x-haiven-surface."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

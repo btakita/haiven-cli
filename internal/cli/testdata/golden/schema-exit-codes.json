@@ -1,0 +1,74 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "schema",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "name": "exit-codes",
+    "schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "urn:haiven.dev:cli-exit-codes:v1",
+      "oneOf": [
+        {
+          "const": 0,
+          "description": "ok",
+          "x-haiven-outcomes": [
+            "ok"
+          ]
+        },
+        {
+          "const": 1,
+          "description": "check failed (drift, invalid manifest, parity gap) or the API answered with an error",
+          "x-haiven-outcomes": [
+            "drift",
+            "invalid-manifest",
+            "api-error"
+          ]
+        },
+        {
+          "const": 2,
+          "description": "usage error",
+          "x-haiven-outcomes": [
+            "usage"
+          ]
+        },
+        {
+          "const": 3,
+          "description": "environment: toolchain, engine or runner missing (never a silent skip)",
+          "x-haiven-outcomes": [
+            "runner-unavailable",
+            "toolchain-missing"
+          ]
+        },
+        {
+          "const": 4,
+          "description": "integrity: lock mismatch, tampered pack, digest mismatch",
+          "x-haiven-outcomes": [
+            "lock-mismatch"
+          ]
+        },
+        {
+          "const": 5,
+          "description": "conformance scenario failed",
+          "x-haiven-outcomes": [
+            "conformance-failed"
+          ]
+        },
+        {
+          "const": 10,
+          "description": "internal error (a bug in the CLI)",
+          "x-haiven-outcomes": [
+            "internal"
+          ]
+        }
+      ],
+      "type": "integer",
+      "title": "haiven exit codes",
+      "description": "The finite, frozen process exit codes. x-haiven-outcomes lists the run outcomes that exit with each code."
+    }
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

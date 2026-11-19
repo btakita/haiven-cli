@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "schema",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "unknown-schema",
+      "severity": "error",
+      "message": "no schema named \"nope\"; known: result, exit-codes, project, bridge-command, fake-server-transcript, api-call, api-list, capabilities, explain, help, schema, sdk-demo-build, sdk-demo-open, sdk-demo-register, sdk-fake-server, sdk-starter-create, sdk-starter-describe, sdk-starter-integrate, sdk-starter-list, sdk-starter-run, sdk-starter-verify, version",
+      "fix": "Run `haiven capabilities` and read `schemas`."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

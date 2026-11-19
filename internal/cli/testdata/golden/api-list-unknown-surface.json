@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "invalid-flag",
+      "severity": "error",
+      "message": "--surface \"nope/v9\" is not published; known: example-studio-http-api, gaming/v0",
+      "fix": "Run `haiven help <command>` for the accepted flags."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

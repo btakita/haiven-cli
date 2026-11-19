@@ -1,0 +1,1 @@
+{"schema": "haiven.dev/bridge-command/v1", "id": "r4", "command": "run-scenario", "args": {"suite": "gaming-client/v0", "scenario": "auth.expired.reauth"}}

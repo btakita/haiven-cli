@@ -1,0 +1,28 @@
+{
+  "api_version": "starter-manual-operations/v1alpha1",
+  "starter_id": "unity-existing",
+  "recipe_id": "sdk/unity-existing",
+  "requires_haiven_cli": false,
+  "requires_runner": false,
+  "guide": {
+    "path": "MANUAL.md",
+    "digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af"
+  },
+  "operations": [
+    {
+      "operation": "plan",
+      "requires_haiven_cli": false,
+      "manual_steps": ["inspect-project"]
+    },
+    {
+      "operation": "apply",
+      "requires_haiven_cli": false,
+      "manual_steps": ["pin-sdk-package", "import-sdk-package", "wire-sdk"]
+    },
+    {
+      "operation": "verify",
+      "requires_haiven_cli": false,
+      "manual_steps": ["verify-package-lock", "verify-code-wiring"]
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:api-list:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "surfaces": {
+          "items": {
+            "properties": {
+              "surface": {
+                "type": "string",
+                "description": "The description's x-haiven-surface (e.g. gaming/v0), or else its info.title in lower kebab case."
+              },
+              "title": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "description": "The description's info.version."
+              },
+              "server": {
+                "type": "string",
+                "description": "The description's first server URL; the default base URL."
+              },
+              "source": {
+                "type": "string",
+                "description": "Where the description was read from: a URL, or a file path relative to the working directory, slash-separated."
+              },
+              "operations": {
+                "type": "integer"
+              }
+            },
+            "type": "object",
+            "required": [
+              "surface",
+              "title",
+              "version",
+              "server",
+              "source",
+              "operations"
+            ]
+          },
+          "type": "array"
+        },
+        "operations": {
+          "items": {
+            "properties": {
+              "surface": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "requires_auth": {
+                "type": "boolean",
+                "description": "True when the operation declares a security requirement with no anonymous alternative; set HAIVEN_TOKEN."
+              },
+              "parameters": {
+                "items": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "in": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "in",
+                    "required"
+                  ]
+                },
+                "type": "array"
+              },
+              "body": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array",
+                "description": "Request body media types the operation accepts."
+              }
+            },
+            "type": "object",
+            "required": [
+              "surface",
+              "method",
+              "path",
+              "summary",
+              "requires_auth",
+              "parameters",
+              "body"
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "required": [
+        "surfaces",
+        "operations"
+      ]
+    }
+  ],
+  "title": "haiven api list data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

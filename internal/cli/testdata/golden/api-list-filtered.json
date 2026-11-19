@@ -1,0 +1,65 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "surfaces": [
+      {
+        "surface": "gaming/v0",
+        "title": "Example Gaming HTTP API",
+        "version": "0.1.0",
+        "server": "https://haiven.example/v0",
+        "source": "openapi/gaming.json",
+        "operations": 6
+      }
+    ],
+    "operations": [
+      {
+        "surface": "gaming/v0",
+        "method": "GET",
+        "path": "/apps/tags",
+        "summary": "Every tag.",
+        "requires_auth": false,
+        "parameters": [],
+        "body": []
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "GET",
+        "path": "/apps/{app_id}",
+        "summary": "One app.",
+        "requires_auth": false,
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "body": []
+      },
+      {
+        "surface": "gaming/v0",
+        "method": "POST",
+        "path": "/apps/{app_id}/report",
+        "summary": "Report an app.",
+        "requires_auth": true,
+        "parameters": [
+          {
+            "name": "app_id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "body": [
+          "application/json"
+        ]
+      }
+    ]
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

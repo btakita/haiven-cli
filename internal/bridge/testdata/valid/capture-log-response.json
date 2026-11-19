@@ -1,0 +1,2 @@
+{"schema": "haiven.dev/bridge-command/v1", "id": "r5", "command": "capture-log", "ok": true, "code": "ok",
+ "data": {"lines": [{"seq": 41, "level": "warning", "message": "socket closed 1008"}], "next": 41, "truncated": false}}

@@ -1,0 +1,71 @@
+{
+  "api_version": "starter-catalog/v1",
+  "id": "haiven-official",
+  "version": "1.0.0",
+  "protocol": {"minimum": 1, "maximum": 1},
+  "starters": [
+    {
+      "id": "unity-existing",
+      "display_name": "Existing Unity Project with Haiven",
+      "description": "Pin and verify one immutable Haiven Unity SDK revision in a caller-owned existing project.",
+      "engine": "unity",
+      "journey": "integrate",
+      "maturity": "preview",
+      "supported_hosts": ["linux", "macos", "windows"],
+      "engine_versions": ["2022.3+"],
+      "features": ["package-integration", "browser-handoff", "rest", "realtime", "offline-check"],
+      "language": "csharp",
+      "topology": "caller-owned",
+      "workflow": "unity-package-manager",
+      "access": "public",
+      "licenses": ["Haiven SDK license"],
+      "recipes": [
+        {"id": "sdk/unity-existing", "version": "1.0.2", "digest": "sha256:c00e61831837abf4c6c39c3cddfc9888e968849fdc671acd8573e5be9780f585"}
+      ],
+      "edges": [],
+      "inputs": []
+    },
+    {
+      "id": "unity-bossroom",
+      "display_name": "Unity Boss Room with Haiven",
+      "description": "The standalone Unity 6 Boss Room project with Haiven lobby, chat, rewards, and inventory.",
+      "engine": "unity",
+      "journey": "sample",
+      "maturity": "preview",
+      "supported_hosts": ["linux", "macos", "windows"],
+      "engine_versions": ["6000.0.52f1"],
+      "features": ["lobby", "chat", "rewards", "inventory", "message-of-the-day"],
+      "language": "csharp",
+      "topology": "multiplayer-client",
+      "workflow": "unity-hub-and-editor",
+      "access": "public",
+      "licenses": ["Unity Companion License"],
+      "recipes": [
+        {"id": "sample/unity-bossroom", "version": "2.0.0", "digest": "sha256:a6b586a3dc859c73503f826d8f5e06076724cc84f89e13c453ce28bfd36cc6a2"}
+      ],
+      "edges": [],
+      "inputs": []
+    },
+    {
+      "id": "unreal-lyra",
+      "display_name": "Lyra with Haiven",
+      "description": "Follow the native SDK and Unreal guide for the entitlement-aware Lyra integration.",
+      "engine": "unreal",
+      "journey": "sample",
+      "maturity": "preview",
+      "supported_hosts": ["linux", "macos", "windows"],
+      "engine_versions": ["5.4"],
+      "features": ["multiplayer", "offline-check"],
+      "language": "C++",
+      "topology": "client-server",
+      "workflow": "source-and-editor",
+      "access": "vendor-gated",
+      "licenses": ["Epic and Lyra access terms apply; content is not redistributed"],
+      "recipes": [
+        {"id": "unreal/lyra", "version": "1.0.0", "digest": "sha256:88eda043380bcef9b0f653d36472cc88116899f29211b2b4d08517746046c180"}
+      ],
+      "edges": [],
+      "inputs": []
+    }
+  ]
+}

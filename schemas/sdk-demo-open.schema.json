@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:sdk-demo-open:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "demo": {
+          "type": "string"
+        },
+        "sdk_root": {
+          "type": "string"
+        },
+        "sdk_revision": {
+          "type": "string"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "backend": {
+          "type": "string",
+          "description": "The local backend; unity-bossroom only."
+        }
+      },
+      "type": "object",
+      "required": [
+        "demo",
+        "sdk_root",
+        "sdk_revision",
+        "destination",
+        "project"
+      ]
+    }
+  ],
+  "title": "haiven sdk demo open data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

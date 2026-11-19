@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:sdk-starter-list:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "catalog_digest": {
+          "type": "string"
+        },
+        "catalog_version": {
+          "type": "string"
+        },
+        "filters": {
+          "properties": {
+            "engine": {
+              "type": "string"
+            },
+            "journey": {
+              "type": "string"
+            },
+            "platform": {
+              "type": "string"
+            },
+            "feature": {
+              "type": "string"
+            }
+          },
+          "type": "object"
+        },
+        "starters": {
+          "items": {
+            "properties": {
+              "starter": {
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "display_name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "engine": {
+                    "type": "string"
+                  },
+                  "journey": {
+                    "type": "string"
+                  },
+                  "maturity": {
+                    "type": "string"
+                  },
+                  "supported_hosts": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "engine_versions": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "features": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "language": {
+                    "type": "string"
+                  },
+                  "topology": {
+                    "type": "string"
+                  },
+                  "workflow": {
+                    "type": "string"
+                  },
+                  "access": {
+                    "type": "string"
+                  },
+                  "licenses": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "recipes": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "string"
+                        },
+                        "digest": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "version",
+                        "digest"
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "edges": {
+                    "items": {
+                      "properties": {
+                        "from": {
+                          "type": "string"
+                        },
+                        "to": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "required": [
+                        "from",
+                        "to"
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "inputs": {
+                    "items": {
+                      "properties": {
+                        "from_recipe": {
+                          "type": "string"
+                        },
+                        "output_path": {
+                          "type": "string"
+                        },
+                        "to_recipe": {
+                          "type": "string"
+                        },
+                        "parameter": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "required": [
+                        "from_recipe",
+                        "output_path",
+                        "to_recipe",
+                        "parameter"
+                      ]
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "id",
+                  "display_name",
+                  "description",
+                  "engine",
+                  "journey",
+                  "maturity",
+                  "supported_hosts",
+                  "engine_versions",
+                  "features",
+                  "language",
+                  "topology",
+                  "workflow",
+                  "access",
+                  "licenses",
+                  "recipes",
+                  "edges",
+                  "inputs"
+                ]
+              },
+              "manual": {
+                "items": {
+                  "properties": {
+                    "recipe_id": {
+                      "type": "string"
+                    },
+                    "operation": {
+                      "type": "string"
+                    },
+                    "guide_path": {
+                      "type": "string"
+                    },
+                    "guide_digest": {
+                      "type": "string"
+                    },
+                    "canonical_url": {
+                      "type": "string"
+                    },
+                    "step_ids": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "requires_haiven_cli": {
+                      "type": "boolean"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "recipe_id",
+                    "operation",
+                    "guide_path",
+                    "guide_digest",
+                    "step_ids",
+                    "requires_haiven_cli"
+                  ]
+                },
+                "type": "array"
+              }
+            },
+            "type": "object",
+            "required": [
+              "starter",
+              "manual"
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "required": [
+        "catalog_digest",
+        "catalog_version",
+        "filters",
+        "starters"
+      ]
+    }
+  ],
+  "title": "haiven sdk starter list data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

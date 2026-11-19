@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.3",
+  "x-haiven-surface": "gaming/v0",
+  "info": {"title": "Example Gaming HTTP API", "version": "0.1.0"},
+  "servers": [{"url": "https://haiven.example/v0"}],
+  "components": {"securitySchemes": {"Bearer": {"type": "apiKey", "in": "header", "name": "Authorization"}}},
+  "paths": {
+    "/apps": {"get": {"description": "The store catalog. Public.", "parameters": [
+      {"in": "query", "name": "q", "schema": {"type": "string"}},
+      {"in": "query", "name": "tag", "schema": {"type": "array", "items": {"type": "string"}}}]}},
+    "/apps/{app_id}": {"get": {"description": "One app.", "parameters": [{"in": "path", "name": "app_id", "required": true, "schema": {"type": "string"}}]}},
+    "/apps/tags": {"get": {"description": "Every tag."}},
+    "/me": {"get": {"summary": "The signed-in account", "security": [{"Bearer": []}]}},
+    "/auth/handoff/exchange": {"post": {"description": "Exchange a handoff code.", "requestBody": {"required": true, "content": {"application/x-www-form-urlencoded": {"schema": {
+      "properties": {"code": {"type": "string"}, "code_verifier": {"type": "string"}}, "required": ["code", "code_verifier"]}}}}}},
+    "/apps/{app_id}/report": {"post": {"description": "Report an app.", "security": [{"Bearer": []}],
+      "parameters": [{"in": "path", "name": "app_id", "required": true, "schema": {"type": "string"}}],
+      "requestBody": {"required": true, "content": {"application/json": {"schema": {"type": "object"}}}}}}
+  }
+}

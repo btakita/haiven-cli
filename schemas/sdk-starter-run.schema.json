@@ -1,0 +1,536 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:sdk-starter-run:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "schema": {
+          "type": "string"
+        },
+        "starter_id": {
+          "type": "string"
+        },
+        "project": {
+          "type": "string"
+        },
+        "catalog_digest": {
+          "type": "string"
+        },
+        "manual": {
+          "items": {
+            "properties": {
+              "recipe_id": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string"
+              },
+              "guide_path": {
+                "type": "string"
+              },
+              "guide_digest": {
+                "type": "string"
+              },
+              "canonical_url": {
+                "type": "string"
+              },
+              "step_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "requires_haiven_cli": {
+                "type": "boolean"
+              }
+            },
+            "type": "object",
+            "required": [
+              "recipe_id",
+              "operation",
+              "guide_path",
+              "guide_digest",
+              "step_ids",
+              "requires_haiven_cli"
+            ]
+          },
+          "type": "array"
+        },
+        "guides": {
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "digest": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "steps": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "operation": {
+                      "type": "string"
+                    },
+                    "native_tool": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "preconditions": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "expected_outcome": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "requires_haiven_cli": {
+                      "type": "boolean"
+                    },
+                    "mutations": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "operation",
+                    "native_tool",
+                    "action",
+                    "preconditions",
+                    "expected_outcome",
+                    "evidence",
+                    "requires_haiven_cli",
+                    "mutations"
+                  ]
+                },
+                "type": "array"
+              }
+            },
+            "type": "object",
+            "required": [
+              "path",
+              "digest",
+              "content",
+              "steps"
+            ]
+          },
+          "type": "array"
+        },
+        "results": {
+          "items": {
+            "properties": {
+              "api_version": {
+                "type": "string"
+              },
+              "request_id": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "capabilities": {
+                "properties": {
+                  "operations": {
+                    "properties": {
+                      "build": {
+                        "properties": {
+                          "supported": {
+                            "type": "boolean"
+                          },
+                          "reason_code": {
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "modes": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object",
+                        "required": [
+                          "supported",
+                          "reason_code",
+                          "modes"
+                        ]
+                      },
+                      "run": {
+                        "properties": {
+                          "supported": {
+                            "type": "boolean"
+                          },
+                          "reason_code": {
+                            "oneOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "modes": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object",
+                        "required": [
+                          "supported",
+                          "reason_code",
+                          "modes"
+                        ]
+                      }
+                    },
+                    "type": "object",
+                    "required": [
+                      "build",
+                      "run"
+                    ]
+                  },
+                  "host": {
+                    "properties": {
+                      "platform": {
+                        "type": "string"
+                      },
+                      "engine": {
+                        "type": "string"
+                      },
+                      "engine_version": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "type": "object",
+                    "required": [
+                      "platform",
+                      "engine",
+                      "engine_version"
+                    ]
+                  },
+                  "cancellation": {
+                    "properties": {
+                      "intents": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "process_tree": {
+                        "type": "boolean"
+                      },
+                      "grace_ms": {
+                        "type": "integer"
+                      }
+                    },
+                    "type": "object",
+                    "required": [
+                      "intents",
+                      "process_tree",
+                      "grace_ms"
+                    ]
+                  },
+                  "logs": {
+                    "properties": {
+                      "max_bytes": {
+                        "type": "integer"
+                      },
+                      "max_line_bytes": {
+                        "type": "integer"
+                      },
+                      "redaction_profile": {
+                        "type": "string"
+                      }
+                    },
+                    "type": "object",
+                    "required": [
+                      "max_bytes",
+                      "max_line_bytes",
+                      "redaction_profile"
+                    ]
+                  },
+                  "manual_fallback": {
+                    "properties": {
+                      "guide_path": {
+                        "type": "string"
+                      },
+                      "guide_digest": {
+                        "type": "string"
+                      },
+                      "operation_steps": {
+                        "properties": {
+                          "build": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "run": {
+                            "items": {
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "type": "object",
+                        "required": [
+                          "build",
+                          "run"
+                        ]
+                      }
+                    },
+                    "type": "object",
+                    "required": [
+                      "guide_path",
+                      "guide_digest",
+                      "operation_steps"
+                    ]
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "operations",
+                  "host",
+                  "cancellation",
+                  "logs",
+                  "manual_fallback"
+                ]
+              },
+              "artifacts": {
+                "items": {
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "digest": {
+                      "type": "string"
+                    },
+                    "owner": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "digest",
+                    "owner"
+                  ]
+                },
+                "type": "array"
+              },
+              "exit_evidence": {
+                "properties": {
+                  "started": {
+                    "type": "boolean"
+                  },
+                  "outcome": {
+                    "type": "string"
+                  },
+                  "exit_code": {
+                    "oneOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "signal": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "started_at": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "finished_at": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "duration_ms": {
+                    "type": "integer"
+                  },
+                  "command_digest": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "process_tree_terminated": {
+                    "type": "boolean"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "started",
+                  "outcome",
+                  "exit_code",
+                  "signal",
+                  "started_at",
+                  "finished_at",
+                  "duration_ms",
+                  "command_digest",
+                  "process_tree_terminated"
+                ]
+              },
+              "logs": {
+                "items": {
+                  "properties": {
+                    "stream": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "digest": {
+                      "type": "string"
+                    },
+                    "bytes": {
+                      "type": "integer"
+                    },
+                    "truncated": {
+                      "type": "boolean"
+                    },
+                    "redactions": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "stream",
+                    "digest",
+                    "bytes",
+                    "truncated",
+                    "redactions"
+                  ]
+                },
+                "type": "array"
+              },
+              "manual_steps": {
+                "properties": {
+                  "completed": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "pending": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "completed",
+                  "pending"
+                ]
+              },
+              "warnings": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "errors": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "type": "object",
+            "required": [
+              "api_version",
+              "request_id",
+              "operation",
+              "status",
+              "warnings",
+              "errors"
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "required": [
+        "schema",
+        "starter_id",
+        "project",
+        "catalog_digest",
+        "manual",
+        "guides",
+        "results"
+      ]
+    }
+  ],
+  "title": "haiven sdk starter run data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

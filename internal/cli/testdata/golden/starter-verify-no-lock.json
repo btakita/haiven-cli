@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk starter verify",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "starter-lock-not-found",
+      "severity": "error",
+      "message": "project \"game\" has no readable .haiven/starter.lock.json; pass --starter <id> to verify through the normative guide without a CLI lock",
+      "fix": "Run a starter create or integrate operation first."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

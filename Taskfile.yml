@@ -1,0 +1,91 @@
+version: "3"
+
+# Task runs commands through its built-in POSIX shell interpreter on every OS,
+# so these work unchanged on Linux, macOS and Windows.
+
+vars:
+  VERSION: '{{.VERSION | default "0.0.0-dev"}}'
+  LDFLAGS: -s -w -X github.com/haiven-dev/haiven-cli/internal/version.Version={{.VERSION}}
+  PLATFORMS: linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 windows/amd64 windows/arm64
+
+tasks:
+  default:
+    cmds:
+      - task: check
+
+  check:
+    desc: Everything CI runs locally - vet, test, lint, cross-compile.
+    cmds:
+      - task: vet
+      - task: test
+      - task: lint
+      - task: cross
+
+  build:
+    desc: Build ./dist/haiven for this machine (VERSION=x.y.z for a versioned build).
+    cmds:
+      - go build -trimpath -ldflags '{{.LDFLAGS}}' -o dist/haiven{{exeExt}} ./cmd/haiven
+
+  test:
+    desc: Run the unit, golden and install-script tests.
+    cmds:
+      - go test -count=1 ./...
+
+  vet:
+    cmds:
+      - go vet ./...
+
+  lint:
+    desc: golangci-lint, plus shellcheck on install.sh where shellcheck is installed.
+    cmds:
+      - golangci-lint run ./...
+      - cmd: shellcheck scripts/install.sh
+        platforms: [linux, darwin]
+
+  commitlint:
+    desc: >-
+      Lint every commit in BASE..HEAD (default origin/main..HEAD) against
+      .commitlint.yaml.
+    vars:
+      BASE: '{{.BASE | default "origin/main"}}'
+    cmds:
+      - >-
+        failed=0;
+        for sha in $(git rev-list --no-merges {{.BASE}}..HEAD); do
+        git log -1 --format=%B "$sha" | go tool -modfile=tools/commitlint/go.mod commitlint lint || { echo "$sha failed"; failed=1; };
+        done;
+        exit $failed
+
+  fmt:
+    cmds:
+      - golangci-lint fmt ./...
+
+  golden:
+    desc: Rewrite the CLI golden outputs and the published schemas/ after an intended change.
+    cmds:
+      - go test ./internal/cli -run 'TestGolden|TestPublishedSchemas' -update
+
+  cross:
+    desc: Cross-compile every release platform into dist/ (CGO disabled, static).
+    env:
+      CGO_ENABLED: "0"
+    cmds:
+      - for: { var: PLATFORMS, split: " " }
+        cmd: >-
+          GOOS={{splitList "/" .ITEM | first}} GOARCH={{splitList "/" .ITEM | last}}
+          go build -trimpath -ldflags '{{.LDFLAGS}}'
+          -o dist/{{splitList "/" .ITEM | first}}-{{splitList "/" .ITEM | last}}/haiven{{if eq (splitList "/" .ITEM | first) "windows"}}.exe{{end}}
+          ./cmd/haiven
+
+  release-archives:
+    desc: >-
+      Build the release assets (VERSION=x.y.z) into dist/release - one archive
+      per platform plus checksums.txt.
+    requires:
+      vars: [VERSION]
+    cmds:
+      - go run ./tools/release -version {{.VERSION}} -out dist/release
+
+  clean:
+    cmds:
+      - rm -rf dist

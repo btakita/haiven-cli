@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "openapi-not-configured",
+      "severity": "error",
+      "message": "no API description: pass --openapi <file|URL> or set HAIVEN_OPENAPI (the Haiven API does not serve its description)",
+      "fix": "Pass --openapi <file|URL> or set HAIVEN_OPENAPI to the public API description."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

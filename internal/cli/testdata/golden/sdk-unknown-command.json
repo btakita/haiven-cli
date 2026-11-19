@@ -1,0 +1,20 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "unknown-command",
+      "severity": "error",
+      "message": "unknown command \"sdk frobnicate\"; haiven sdk has: demo build, demo open, demo register, fake-server, starter create, starter describe, starter integrate, starter list, starter run, starter verify",
+      "fix": "Run `haiven capabilities` to list the commands."
+    }
+  ],
+  "next": [
+    "haiven help sdk"
+  ],
+  "truncated": false
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "help",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "commands": [
+      {
+        "name": "sdk demo build",
+        "group": "sdk",
+        "usage": "haiven sdk demo build unity-bossroom|unreal-lyra --sdk-root path --sdk-revision commit --target linux64|win64|osx [--dest path] [--out path] [unity-bossroom: [--unity path] [--timeout seconds]] [unreal-lyra: [--engine path] [--content path] [--item code=item]... [--editor-only]]",
+        "summary": "Build Boss Room or Lyra from a development SDK checkout. Use the native editor to build standalone demo checkouts.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk demo open",
+        "group": "sdk",
+        "usage": "haiven sdk demo open unity-bossroom|unreal-lyra|godot-demo --sdk-root path --sdk-revision commit [--no-editor] [unity-bossroom: [--unity path]] [unity-bossroom development checkout: --api-root path [--dest path] [--backend local-api|wsfixture|auto] [--oauth]] [unreal-lyra: [--engine path] [--dest path] [--content path] [--item code=item]...] [godot-demo: [--godot path]]",
+        "summary": "Open a pinned Boss Room, Lyra, or Godot demo in its editor.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk demo register",
+        "group": "sdk",
+        "usage": "haiven sdk demo register unity-bossroom --sdk-root path --sdk-revision commit [--dest path] [--hub-cli command]",
+        "summary": "Add a pinned Boss Room project to Unity Hub.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "sdk fake-server",
+        "group": "sdk",
+        "usage": "haiven sdk fake-server [--addr host:port] [--token VALUE:USER[:expired|:invalid]]... [--route type]... [--rate-limited type]... [--deferred type]... [--record file.jsonl] [--ready-file file.json]",
+        "summary": "Serve a local model of the gaming WebSocket (/v0/ws) with control levers, until interrupted.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter create",
+        "group": "sdk",
+        "usage": "haiven sdk starter create <starter> --dest path [--preview] [--yes] [--param name=value]...",
+        "summary": "Optionally preview or automate sample creation without replacing the native guide.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter describe",
+        "group": "sdk",
+        "usage": "haiven sdk starter describe <starter>",
+        "summary": "Describe a trusted starter and its normative native onboarding guide.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter integrate",
+        "group": "sdk",
+        "usage": "haiven sdk starter integrate <starter> --project path [--preview] [--yes] [--param name=value]...",
+        "summary": "Optionally preview or automate native onboarding in a clean Git worktree. A changed starter lock is refused.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter list",
+        "group": "sdk",
+        "usage": "haiven sdk starter list [--engine name] [--journey name] [--platform name] [--feature name]",
+        "summary": "List trusted SDK starters with immutable native guides and stable manual steps.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter run",
+        "group": "sdk",
+        "usage": "haiven sdk starter run <starter> --project path [--param name=value]...",
+        "summary": "Build and run a supported demo through its verified SDK-owned lifecycle runner.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter verify",
+        "group": "sdk",
+        "usage": "haiven sdk starter verify --project path [--starter id]",
+        "summary": "Verify locked or native/manual onboarding; pending guide steps are never success.",
+        "network": false,
+        "reads_project": false
+      }
+    ]
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

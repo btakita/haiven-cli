@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:schema:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "object"
+        }
+      },
+      "type": "object",
+      "required": [
+        "name",
+        "schema"
+      ]
+    }
+  ],
+  "title": "haiven schema data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "explain",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "unknown-code",
+      "severity": "error",
+      "message": "\"no-such-code\" is not an outcome or diagnostic code",
+      "fix": "Run `haiven schema result` for the outcome and diagnostic enums."
+    }
+  ],
+  "next": [
+    "haiven capabilities"
+  ],
+  "truncated": false
+}

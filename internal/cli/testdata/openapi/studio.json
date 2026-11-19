@@ -1,0 +1,9 @@
+{
+  "openapi": "3.0.3",
+  "info": {"title": "Example Studio HTTP API", "version": "0.1.0-preview"},
+  "servers": [{"url": "https://haiven.example/v0"}],
+  "paths": {
+    "/studios": {"get": {"description": "Your studios.", "security": [{"Bearer": []}]}},
+    "/apps/tags": {"get": {"description": "Every tag, again."}}
+  }
+}

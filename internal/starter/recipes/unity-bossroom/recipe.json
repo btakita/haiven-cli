@@ -1,0 +1,64 @@
+{
+  "api_version": "starter-recipe/v1",
+  "id": "sample/unity-bossroom",
+  "version": "2.0.0",
+  "description": "Open and verify the standalone Unity 6 Boss Room demo at a reviewed release commit.",
+  "operations": [
+    "plan",
+    "apply",
+    "verify"
+  ],
+  "parameters": [],
+  "requires": [],
+  "sources": [
+    {
+      "id": "manual-guide",
+      "kind": "overlay",
+      "uri": "MANUAL.md",
+      "revision": "2",
+      "digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa"
+    }
+  ],
+  "prerequisites": [
+    "Git and Git LFS",
+    "Unity Editor 6000.0.52f1 with an active license",
+    "Reviewed Boss Room release commit and a configured Haiven preview integration"
+  ],
+  "network_hosts": [
+    "github.com"
+  ],
+  "outputs": [
+    {
+      "path": "BossRoom",
+      "scope": "tree",
+      "action": "create"
+    }
+  ],
+  "licenses": [
+    "Unity Companion License"
+  ],
+  "access_requirements": [
+    "Public GitHub access",
+    "Configured Haiven preview integration"
+  ],
+  "manual": {
+    "guide_path": "MANUAL.md",
+    "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+    "operation_steps": {
+      "plan": [
+        "prerequisites"
+      ],
+      "apply": [
+        "acquire-boss-room",
+        "check-pinned-packages",
+        "configure-demo",
+        "open-in-unity"
+      ],
+      "verify": [
+        "verify-checkout",
+        "play-sample",
+        "record-evidence"
+      ]
+    }
+  }
+}

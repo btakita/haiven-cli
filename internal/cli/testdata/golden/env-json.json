@@ -1,0 +1,14 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "version",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "version": "1.2.3",
+    "platform": "linux/amd64"
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

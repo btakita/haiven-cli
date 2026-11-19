@@ -1,0 +1,19 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": false,
+  "code": "invalid-manifest",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "invalid-openapi",
+      "severity": "error",
+      "message": "openapi version \"\" is not 3.x",
+      "path": "openapi/swagger2.json",
+      "fix": "Point --openapi at the public API description; give each description its own x-haiven-surface."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

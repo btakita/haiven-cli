@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "schema",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "missing-argument",
+      "severity": "error",
+      "message": "usage: haiven schema <name>",
+      "fix": "Run `haiven help <command>` for the usage line."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

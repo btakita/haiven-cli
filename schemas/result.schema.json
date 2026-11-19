@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-result:v1",
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "haiven.dev/cli-result/v1",
+      "description": "Always haiven.dev/cli-result/v1."
+    },
+    "command": {
+      "type": "string",
+      "description": "The command that produced this result, space-separated for subcommands."
+    },
+    "ok": {
+      "type": "boolean",
+      "description": "True exactly when code is ok."
+    },
+    "code": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "drift",
+        "invalid-manifest",
+        "lock-mismatch",
+        "conformance-failed",
+        "runner-unavailable",
+        "toolchain-missing",
+        "usage",
+        "internal",
+        "api-error"
+      ]
+    },
+    "kit_version": {
+      "type": "string",
+      "description": "The haiven CLI version that produced this result."
+    },
+    "lock_digest": {
+      "type": "string",
+      "description": "sha256 digest of the project's lock, when one was read."
+    },
+    "data": {
+      "description": "Command-specific payload; its schema is published by haiven schema \u003ccommand\u003e."
+    },
+    "diagnostics": {
+      "items": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "unknown-command",
+              "invalid-flag",
+              "missing-argument",
+              "unexpected-argument",
+              "unknown-schema",
+              "unknown-code",
+              "project-not-found",
+              "invalid-project-file",
+              "invalid-version-pin",
+              "pinned-version-unavailable",
+              "pinned-checksum-mismatch",
+              "internal-error",
+              "openapi-not-configured",
+              "openapi-unavailable",
+              "invalid-openapi",
+              "unknown-operation",
+              "ambiguous-operation",
+              "missing-parameter",
+              "unknown-parameter",
+              "invalid-request-body",
+              "api-unreachable",
+              "api-unauthorized",
+              "api-http-error",
+              "fake-server-unavailable",
+              "starter-catalog-invalid",
+              "starter-catalog-untrusted",
+              "starter-unknown",
+              "starter-runner-unavailable",
+              "starter-runner-failed",
+              "starter-manual-required",
+              "starter-journey-unsupported",
+              "starter-unsafe-destination",
+              "starter-dirty-project",
+              "starter-confirmation-required",
+              "starter-evidence-untrusted",
+              "starter-lock-not-found",
+              "starter-drift",
+              "demo-unknown",
+              "demo-revision-mismatch",
+              "demo-open-failed",
+              "demo-build-failed",
+              "demo-register-failed",
+              "contract-artifact-unverified",
+              "starter-unversioned-project",
+              "starter-lock-changed",
+              "malformed-path-escape"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "error",
+              "warning",
+              "info"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "description": "Human prose; free to change between releases. Branch on code, not message."
+          },
+          "path": {
+            "type": "string"
+          },
+          "line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "node": {
+            "type": "string",
+            "description": "Contract model node, when known."
+          },
+          "fix": {
+            "type": "string",
+            "description": "A command or action that resolves the diagnostic."
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "severity",
+          "message"
+        ]
+      },
+      "type": "array"
+    },
+    "next": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "description": "Deterministic follow-up commands, in order."
+    },
+    "truncated": {
+      "type": "boolean",
+      "description": "True when data or diagnostics were cut to a bound."
+    }
+  },
+  "type": "object",
+  "required": [
+    "schema",
+    "command",
+    "ok",
+    "code",
+    "kit_version",
+    "data",
+    "diagnostics",
+    "next",
+    "truncated"
+  ],
+  "title": "haiven.dev/cli-result/v1"
+}

@@ -1,0 +1,197 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk starter integrate",
+  "ok": false,
+  "code": "runner-unavailable",
+  "kit_version": "1.2.3",
+  "data": {
+    "preview": true,
+    "dirty_project": false,
+    "plan": {
+      "schema": "starter-runner/v1",
+      "starter_id": "unity-existing",
+      "target": "game",
+      "catalog_digest": "sha256:284cf80add8c5e3254f32ee36e7af0634bd510f77a47d396ec3dc69d22e276fb",
+      "manual": [
+        {
+          "recipe_id": "sdk/unity-existing",
+          "operation": "plan",
+          "guide_path": "MANUAL.md",
+          "guide_digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+          "step_ids": [
+            "inspect-project"
+          ],
+          "requires_haiven_cli": false
+        },
+        {
+          "recipe_id": "sdk/unity-existing",
+          "operation": "apply",
+          "guide_path": "MANUAL.md",
+          "guide_digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+          "step_ids": [
+            "pin-sdk-package",
+            "import-sdk-package",
+            "wire-sdk"
+          ],
+          "requires_haiven_cli": false
+        },
+        {
+          "recipe_id": "sdk/unity-existing",
+          "operation": "verify",
+          "guide_path": "MANUAL.md",
+          "guide_digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+          "step_ids": [
+            "verify-package-lock",
+            "verify-code-wiring"
+          ],
+          "requires_haiven_cli": false
+        }
+      ],
+      "guides": [
+        {
+          "path": "MANUAL.md",
+          "digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+          "content": "# Integrate Haiven into an existing Unity project\n\nThis guide is the native, CLI-independent path for adding one immutable Haiven\nUnity SDK revision to a game you already own. It supports Unity 2022.3 or newer\non Linux, macOS, and Windows. The release qualification pin is 2022.3.62f2;\n2022.3 is the compatibility floor.\n\nThe integration never asks for an integration key, bearer, populated environment\nfile, password, or other credential. Player builds use browser handoff and the\nresulting player credential. Server integration keys stay in an approved private\nserver-side secret channel and never belong in a Unity project.\n\n## Plan\n\nBefore changing anything, resolve the reviewed release in the standalone\n[Unity SDK repository](https://github.com/haiven-dev/haiven-sdk-unity) to its full\n40-character lowercase Git commit. Use the absolute root of the existing\nUnity project. It must already contain `Assets`, `Packages/manifest.json`, and\n`ProjectSettings/ProjectVersion.txt`. Review local changes to the two package\nfiles and stop if the intended edit would overlap one.\n\n```haiven-manual-step\n{\n  \"id\": \"inspect-project\",\n  \"operation\": \"plan\",\n  \"native_tool\": \"Unity project files and Git\",\n  \"action\": \"Confirm the caller-owned project, Unity 2022.3-or-newer version, full SDK commit, current package files, and clean overlap before mutation.\",\n  \"preconditions\": [\"The project already exists and is owned by the caller.\"],\n  \"expected_outcome\": \"The exact package URL and every automated or manual effect are known before any file changes.\",\n  \"evidence\": [\"ProjectVersion.txt records Unity 2022.3 or newer and the selected SDK revision is 40 lowercase hexadecimal characters.\"],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n## Apply\n\nEdit only the `dependencies` object in `Packages/manifest.json`, preserving all\nother project content. Set `com.haiven.sdk` to this URL, replacing `<commit>`\nwith the selected full commit:\n\n```json\n\"com.haiven.sdk\": \"https://github.com/haiven-dev/haiven-sdk-unity.git?path=/com.haiven.sdk#<commit>\"\n```\n\nAn identical rerun is a no-op. If `Packages/manifest.json` or\n`Packages/packages-lock.json` has an overlapping uncommitted edit and the\nmanifest still needs changing, stop and resolve it instead of overwriting it.\n\n```haiven-manual-step\n{\n  \"id\": \"pin-sdk-package\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Unity Package Manager manifest\",\n  \"action\": \"Pin com.haiven.sdk in Packages/manifest.json to the Git UPM URL with the full immutable SDK commit.\",\n  \"preconditions\": [\"The plan was reviewed and overlapping package-file changes are clean.\"],\n  \"expected_outcome\": \"Only the com.haiven.sdk dependency value changes; an identical pin is unchanged.\",\n  \"evidence\": [\"Packages/manifest.json contains the exact Git UPM URL and retains every unrelated dependency and root field.\"],\n  \"requires_haiven_cli\": false,\n  \"mutations\": [\"Packages/manifest.json\"]\n}\n```\n\nOpen this exact project in the Unity Editor and wait for Package Manager import\nand script compilation to finish. Do not copy a package directory into Assets\nand do not replace the Git pin with a mutable branch or tag.\n\n```haiven-manual-step\n{\n  \"id\": \"import-sdk-package\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Unity Editor Package Manager\",\n  \"action\": \"Open the exact project, allow Unity to resolve and import com.haiven.sdk, and inspect the Console before continuing.\",\n  \"preconditions\": [\"Packages/manifest.json has the exact immutable Git UPM pin.\"],\n  \"expected_outcome\": \"Unity records the Git package in Packages/packages-lock.json and compilation finishes without Haiven package errors.\",\n  \"evidence\": [\"The resolved lock entry has source git and the exact requested version URL; the Editor Console has no Haiven compile error.\"],\n  \"requires_haiven_cli\": false,\n  \"mutations\": [\"Packages/packages-lock.json\"]\n}\n```\n\nWire the SDK through game-owned code or scenes using the package README. This\nstep is intentionally not automated: the runner cannot safely infer your scene,\nassembly, lifetime, sign-in UX, or networking architecture. Keep keys and bearer\ntokens out of source, scenes, assets, settings, environment files, and logs.\n\n```haiven-manual-step\n{\n  \"id\": \"wire-sdk\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Unity Editor and caller-owned C#\",\n  \"action\": \"Add the game-specific Haiven lifetime, handoff, REST, and realtime wiring through normal caller-owned code and scenes without embedding credentials.\",\n  \"preconditions\": [\"The package imported successfully and its README is available in Package Manager.\"],\n  \"expected_outcome\": \"The game owns an explicit, reviewable integration and no credential is persisted in project content.\",\n  \"evidence\": [\"A project owner reviews the code/scene wiring and secret scan; a native test or play session exercises the intended path.\"],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n## Verify\n\nRead both package files without changing them. The manifest value must be the\nexact requested URL. In `Packages/packages-lock.json`, the\n`dependencies.com.haiven.sdk` object must have `source` equal to `git` and\n`version` equal to that same URL. A missing entry means the Editor import is\nstill pending; a different source or version is drift.\n\n```haiven-manual-step\n{\n  \"id\": \"verify-package-lock\",\n  \"operation\": \"verify\",\n  \"native_tool\": \"Unity Package Manager lock\",\n  \"action\": \"Compare the manifest and resolved package-lock entry with the full requested Haiven SDK commit.\",\n  \"preconditions\": [\"Unity finished importing the project.\"],\n  \"expected_outcome\": \"Both files identify the same immutable Git UPM URL and package-lock reports source git.\",\n  \"evidence\": [\"Packages/manifest.json and Packages/packages-lock.json resolve com.haiven.sdk to the exact requested commit.\"],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\nFinally, inspect and exercise the game-specific wiring in the native Editor.\nPackage resolution alone is never proof that the game is integrated.\n\n```haiven-manual-step\n{\n  \"id\": \"verify-code-wiring\",\n  \"operation\": \"verify\",\n  \"native_tool\": \"Unity Editor and project-native tests\",\n  \"action\": \"Review and exercise the caller-owned SDK wiring, including its credential-free configuration boundary.\",\n  \"preconditions\": [\"The exact package lock is resolved and the game-specific wiring is present.\"],\n  \"expected_outcome\": \"The intended Haiven path works in the caller's game and no integration key, bearer, populated environment file, or credential is persisted.\",\n  \"evidence\": [\"Project-native test or play evidence plus a review of the caller-owned wiring and secret boundary.\"],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\nThe optional runner automates only the safe package-manifest edit and lock-file\ninspection. Apply and verify therefore return `manual-required` while Editor\nimport or game-specific wiring remains pending; they never turn package presence\ninto a false integration success.\n",
+          "steps": [
+            {
+              "id": "inspect-project",
+              "operation": "plan",
+              "native_tool": "Unity project files and Git",
+              "action": "Confirm the caller-owned project, Unity 2022.3-or-newer version, full SDK commit, current package files, and clean overlap before mutation.",
+              "preconditions": [
+                "The project already exists and is owned by the caller."
+              ],
+              "expected_outcome": "The exact package URL and every automated or manual effect are known before any file changes.",
+              "evidence": [
+                "ProjectVersion.txt records Unity 2022.3 or newer and the selected SDK revision is 40 lowercase hexadecimal characters."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "pin-sdk-package",
+              "operation": "apply",
+              "native_tool": "Unity Package Manager manifest",
+              "action": "Pin com.haiven.sdk in Packages/manifest.json to the Git UPM URL with the full immutable SDK commit.",
+              "preconditions": [
+                "The plan was reviewed and overlapping package-file changes are clean."
+              ],
+              "expected_outcome": "Only the com.haiven.sdk dependency value changes; an identical pin is unchanged.",
+              "evidence": [
+                "Packages/manifest.json contains the exact Git UPM URL and retains every unrelated dependency and root field."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": [
+                "Packages/manifest.json"
+              ]
+            },
+            {
+              "id": "import-sdk-package",
+              "operation": "apply",
+              "native_tool": "Unity Editor Package Manager",
+              "action": "Open the exact project, allow Unity to resolve and import com.haiven.sdk, and inspect the Console before continuing.",
+              "preconditions": [
+                "Packages/manifest.json has the exact immutable Git UPM pin."
+              ],
+              "expected_outcome": "Unity records the Git package in Packages/packages-lock.json and compilation finishes without Haiven package errors.",
+              "evidence": [
+                "The resolved lock entry has source git and the exact requested version URL; the Editor Console has no Haiven compile error."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": [
+                "Packages/packages-lock.json"
+              ]
+            },
+            {
+              "id": "wire-sdk",
+              "operation": "apply",
+              "native_tool": "Unity Editor and caller-owned C#",
+              "action": "Add the game-specific Haiven lifetime, handoff, REST, and realtime wiring through normal caller-owned code and scenes without embedding credentials.",
+              "preconditions": [
+                "The package imported successfully and its README is available in Package Manager."
+              ],
+              "expected_outcome": "The game owns an explicit, reviewable integration and no credential is persisted in project content.",
+              "evidence": [
+                "A project owner reviews the code/scene wiring and secret scan; a native test or play session exercises the intended path."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "verify-package-lock",
+              "operation": "verify",
+              "native_tool": "Unity Package Manager lock",
+              "action": "Compare the manifest and resolved package-lock entry with the full requested Haiven SDK commit.",
+              "preconditions": [
+                "Unity finished importing the project."
+              ],
+              "expected_outcome": "Both files identify the same immutable Git UPM URL and package-lock reports source git.",
+              "evidence": [
+                "Packages/manifest.json and Packages/packages-lock.json resolve com.haiven.sdk to the exact requested commit."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "verify-code-wiring",
+              "operation": "verify",
+              "native_tool": "Unity Editor and project-native tests",
+              "action": "Review and exercise the caller-owned SDK wiring, including its credential-free configuration boundary.",
+              "preconditions": [
+                "The exact package lock is resolved and the game-specific wiring is present."
+              ],
+              "expected_outcome": "The intended Haiven path works in the caller's game and no integration key, bearer, populated environment file, or credential is persisted.",
+              "evidence": [
+                "Project-native test or play evidence plus a review of the caller-owned wiring and secret boundary."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "api_version": "starter-runner/v1",
+          "request_id": "unity-existing-plan-0",
+          "operation": "plan",
+          "status": "manual-required",
+          "changes": [
+            {
+              "path": "Packages/manifest.json",
+              "action": "replace"
+            },
+            {
+              "path": "Packages/packages-lock.json",
+              "action": "replace"
+            }
+          ],
+          "artifacts": [],
+          "resolved_sources": {},
+          "manual_steps": {
+            "completed": [],
+            "pending": [
+              "inspect-project"
+            ]
+          },
+          "warnings": [],
+          "errors": []
+        }
+      ]
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "starter-manual-required",
+      "severity": "error",
+      "message": "normative native guide steps remain pending",
+      "fix": "Follow the guide and stable step references in the result; the haiven CLI is not required."
+    }
+  ],
+  "next": [
+    "Follow MANUAL.md steps inspect-project with native tools; haiven CLI is optional.",
+    "Follow MANUAL.md steps pin-sdk-package, import-sdk-package, wire-sdk with native tools; haiven CLI is optional.",
+    "Follow MANUAL.md steps verify-package-lock, verify-code-wiring with native tools; haiven CLI is optional."
+  ],
+  "truncated": false
+}

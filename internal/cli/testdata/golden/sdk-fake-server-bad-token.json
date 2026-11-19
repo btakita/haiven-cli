@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk fake-server",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "invalid-flag",
+      "severity": "error",
+      "message": "invalid value \"only-a-value\" for flag -token: --token \"only-a-value\": want VALUE:USER or VALUE:USER:expired or VALUE:USER:invalid; usage: haiven sdk fake-server [--addr host:port] [--token VALUE:USER[:expired|:invalid]]... [--route type]... [--rate-limited type]... [--deferred type]... [--record file.jsonl] [--ready-file file.json]",
+      "fix": "Run `haiven help <command>` for the accepted flags."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

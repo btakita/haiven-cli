@@ -1,0 +1,318 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "capabilities",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "cli_version": "1.2.3",
+    "platform": "linux/amd64",
+    "result_schema": "haiven.dev/cli-result/v1",
+    "commands": [
+      {
+        "name": "capabilities",
+        "usage": "haiven capabilities",
+        "summary": "Describe this CLI: commands, schemas, codes, and the project pin. The first call an agent makes.",
+        "network": false,
+        "reads_project": true
+      },
+      {
+        "name": "explain",
+        "usage": "haiven explain <code>",
+        "summary": "Explain an outcome or diagnostic code and its fix.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "help",
+        "usage": "haiven help [command...]",
+        "summary": "Show usage for every command, one command family, or one command.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "schema",
+        "usage": "haiven schema <name>",
+        "summary": "Print a published JSON Schema: result, exit-codes, project, or a command's data.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "version",
+        "usage": "haiven version",
+        "summary": "Print the CLI version and platform.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "api call",
+        "group": "api",
+        "usage": "haiven api call <METHOD> <path> [-p name=value]... [-q name=value]... [-f name=value]... [--body json|@file|@-] [--surface s] [--base-url url] [--dry-run] [--show-secrets] [--openapi file|URL]...",
+        "summary": "Build a public HTTP API request. Sending stays unavailable until an immutable contract artifact is verified by version and digest; --dry-run prints the request.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "api list",
+        "group": "api",
+        "usage": "haiven api list [--openapi file|URL]... [--surface name]... [--match text]",
+        "summary": "List the operations of a public HTTP API description.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk demo build",
+        "group": "sdk",
+        "usage": "haiven sdk demo build unity-bossroom|unreal-lyra --sdk-root path --sdk-revision commit --target linux64|win64|osx [--dest path] [--out path] [unity-bossroom: [--unity path] [--timeout seconds]] [unreal-lyra: [--engine path] [--content path] [--item code=item]... [--editor-only]]",
+        "summary": "Build Boss Room or Lyra from a development SDK checkout. Use the native editor to build standalone demo checkouts.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk demo open",
+        "group": "sdk",
+        "usage": "haiven sdk demo open unity-bossroom|unreal-lyra|godot-demo --sdk-root path --sdk-revision commit [--no-editor] [unity-bossroom: [--unity path]] [unity-bossroom development checkout: --api-root path [--dest path] [--backend local-api|wsfixture|auto] [--oauth]] [unreal-lyra: [--engine path] [--dest path] [--content path] [--item code=item]...] [godot-demo: [--godot path]]",
+        "summary": "Open a pinned Boss Room, Lyra, or Godot demo in its editor.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk demo register",
+        "group": "sdk",
+        "usage": "haiven sdk demo register unity-bossroom --sdk-root path --sdk-revision commit [--dest path] [--hub-cli command]",
+        "summary": "Add a pinned Boss Room project to Unity Hub.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "sdk fake-server",
+        "group": "sdk",
+        "usage": "haiven sdk fake-server [--addr host:port] [--token VALUE:USER[:expired|:invalid]]... [--route type]... [--rate-limited type]... [--deferred type]... [--record file.jsonl] [--ready-file file.json]",
+        "summary": "Serve a local model of the gaming WebSocket (/v0/ws) with control levers, until interrupted.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter create",
+        "group": "sdk",
+        "usage": "haiven sdk starter create <starter> --dest path [--preview] [--yes] [--param name=value]...",
+        "summary": "Optionally preview or automate sample creation without replacing the native guide.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter describe",
+        "group": "sdk",
+        "usage": "haiven sdk starter describe <starter>",
+        "summary": "Describe a trusted starter and its normative native onboarding guide.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter integrate",
+        "group": "sdk",
+        "usage": "haiven sdk starter integrate <starter> --project path [--preview] [--yes] [--param name=value]...",
+        "summary": "Optionally preview or automate native onboarding in a clean Git worktree. A changed starter lock is refused.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter list",
+        "group": "sdk",
+        "usage": "haiven sdk starter list [--engine name] [--journey name] [--platform name] [--feature name]",
+        "summary": "List trusted SDK starters with immutable native guides and stable manual steps.",
+        "network": false,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter run",
+        "group": "sdk",
+        "usage": "haiven sdk starter run <starter> --project path [--param name=value]...",
+        "summary": "Build and run a supported demo through its verified SDK-owned lifecycle runner.",
+        "network": true,
+        "reads_project": false
+      },
+      {
+        "name": "sdk starter verify",
+        "group": "sdk",
+        "usage": "haiven sdk starter verify --project path [--starter id]",
+        "summary": "Verify locked or native/manual onboarding; pending guide steps are never success.",
+        "network": false,
+        "reads_project": false
+      }
+    ],
+    "groups": [
+      {
+        "name": "api",
+        "summary": "Inspect the Haiven HTTP API from a public description. Requests are not sent until a verified contract artifact exists.",
+        "commands": [
+          "api call",
+          "api list"
+        ]
+      },
+      {
+        "name": "sdk",
+        "summary": "Commands for SDK integrators: trusted starters and a local fake of the gaming WebSocket.",
+        "commands": [
+          "sdk demo build",
+          "sdk demo open",
+          "sdk demo register",
+          "sdk fake-server",
+          "sdk starter create",
+          "sdk starter describe",
+          "sdk starter integrate",
+          "sdk starter list",
+          "sdk starter run",
+          "sdk starter verify"
+        ]
+      }
+    ],
+    "schemas": [
+      "result",
+      "exit-codes",
+      "project",
+      "bridge-command",
+      "fake-server-transcript",
+      "api-call",
+      "api-list",
+      "capabilities",
+      "explain",
+      "help",
+      "schema",
+      "sdk-demo-build",
+      "sdk-demo-open",
+      "sdk-demo-register",
+      "sdk-fake-server",
+      "sdk-starter-create",
+      "sdk-starter-describe",
+      "sdk-starter-integrate",
+      "sdk-starter-list",
+      "sdk-starter-run",
+      "sdk-starter-verify",
+      "version"
+    ],
+    "outcomes": [
+      "ok",
+      "drift",
+      "invalid-manifest",
+      "lock-mismatch",
+      "conformance-failed",
+      "runner-unavailable",
+      "toolchain-missing",
+      "usage",
+      "internal",
+      "api-error"
+    ],
+    "diagnostic_codes": [
+      "unknown-command",
+      "invalid-flag",
+      "missing-argument",
+      "unexpected-argument",
+      "unknown-schema",
+      "unknown-code",
+      "project-not-found",
+      "invalid-project-file",
+      "invalid-version-pin",
+      "pinned-version-unavailable",
+      "pinned-checksum-mismatch",
+      "internal-error",
+      "openapi-not-configured",
+      "openapi-unavailable",
+      "invalid-openapi",
+      "unknown-operation",
+      "ambiguous-operation",
+      "missing-parameter",
+      "unknown-parameter",
+      "invalid-request-body",
+      "api-unreachable",
+      "api-unauthorized",
+      "api-http-error",
+      "fake-server-unavailable",
+      "starter-catalog-invalid",
+      "starter-catalog-untrusted",
+      "starter-unknown",
+      "starter-runner-unavailable",
+      "starter-runner-failed",
+      "starter-manual-required",
+      "starter-journey-unsupported",
+      "starter-unsafe-destination",
+      "starter-dirty-project",
+      "starter-confirmation-required",
+      "starter-evidence-untrusted",
+      "starter-lock-not-found",
+      "starter-drift",
+      "demo-unknown",
+      "demo-revision-mismatch",
+      "demo-open-failed",
+      "demo-build-failed",
+      "demo-register-failed",
+      "contract-artifact-unverified",
+      "starter-unversioned-project",
+      "starter-lock-changed",
+      "malformed-path-escape"
+    ],
+    "exit_codes": [
+      {
+        "exit": 0,
+        "meaning": "ok",
+        "outcomes": [
+          "ok"
+        ]
+      },
+      {
+        "exit": 1,
+        "meaning": "check failed (drift, invalid manifest, parity gap) or the API answered with an error",
+        "outcomes": [
+          "drift",
+          "invalid-manifest",
+          "api-error"
+        ]
+      },
+      {
+        "exit": 2,
+        "meaning": "usage error",
+        "outcomes": [
+          "usage"
+        ]
+      },
+      {
+        "exit": 3,
+        "meaning": "environment: toolchain, engine or runner missing (never a silent skip)",
+        "outcomes": [
+          "runner-unavailable",
+          "toolchain-missing"
+        ]
+      },
+      {
+        "exit": 4,
+        "meaning": "integrity: lock mismatch, tampered pack, digest mismatch",
+        "outcomes": [
+          "lock-mismatch"
+        ]
+      },
+      {
+        "exit": 5,
+        "meaning": "conformance scenario failed",
+        "outcomes": [
+          "conformance-failed"
+        ]
+      },
+      {
+        "exit": 10,
+        "meaning": "internal error (a bug in the CLI)",
+        "outcomes": [
+          "internal"
+        ]
+      }
+    ],
+    "project": {
+      "file": "haiven.toml",
+      "valid": true,
+      "pinned_version": "1.2.3",
+      "pin": "matches"
+    }
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

@@ -1,0 +1,109 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Only GitHub-owned actions are used, so the workflow runs under an org
+# allowlist that admits nothing else; golangci-lint is built from the Go
+# module proxy at the version mise.toml pins.
+env:
+  GOLANGCI_LINT_VERSION: v2.14.0
+
+jobs:
+  test:
+    name: test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Vet
+        run: go vet ./...
+      - name: Test (unit, golden, install script)
+        run: go test -count=1 ./...
+      - name: Build
+        run: go build -trimpath -o dist/ ./cmd/haiven
+      - name: Smoke
+        shell: bash
+        run: |
+          bin=dist/haiven
+          [ -f dist/haiven.exe ] && bin=dist/haiven.exe
+          "$bin" capabilities --json > caps.json
+          "$bin" version --json
+          set +e
+          "$bin" no-such-command --json > /dev/null
+          status=$?
+          set -e
+          [ "$status" -eq 2 ] || { echo "unknown command exited $status, want 2"; exit 1; }
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # The commit lint below walks base..head.
+          fetch-depth: 0
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: golangci-lint
+        run: go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@${GOLANGCI_LINT_VERSION} run ./...
+      - name: shellcheck
+        run: shellcheck scripts/install.sh
+      - name: Published schemas and goldens are current
+        run: go test -count=1 ./internal/cli -run 'TestGolden|TestPublishedSchemas'
+      - name: Public source dependency boundary
+        run: go test -count=1 ./scripts -run 'TestOnlyPublicDependencies|TestBoundaryPatternsMatch'
+      # Conventional commits, using .commitlint.yaml and the pinned parser.
+      # Last, and after a failure
+      # too, so one run reports both.
+      - name: Lint PR commits
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          failed=0
+          for sha in $(git rev-list --no-merges "$BASE..$HEAD"); do
+            echo "::group::Linting $sha"
+            if git log -1 --format=%B "$sha" | go tool -modfile=tools/commitlint/go.mod commitlint lint; then
+              echo "$sha passed"
+            else
+              echo "$sha failed"
+              failed=1
+            fi
+            echo "::endgroup::"
+          done
+          exit $failed
+
+  cross:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: [linux/amd64, linux/arm64, darwin/amd64, darwin/arm64, windows/amd64, windows/arm64]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Cross-compile ${{ matrix.target }}
+        env:
+          CGO_ENABLED: "0"
+          TARGET: ${{ matrix.target }}
+        run: |
+          export GOOS="${TARGET%/*}" GOARCH="${TARGET#*/}"
+          go vet ./...
+          go build -trimpath -o "dist/${GOOS}-${GOARCH}/" ./cmd/haiven

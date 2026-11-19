@@ -1,0 +1,495 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:sdk-starter-describe:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "catalog_digest": {
+          "type": "string"
+        },
+        "starter": {
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "display_name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "engine": {
+              "type": "string"
+            },
+            "journey": {
+              "type": "string"
+            },
+            "maturity": {
+              "type": "string"
+            },
+            "supported_hosts": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "engine_versions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "features": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "language": {
+              "type": "string"
+            },
+            "topology": {
+              "type": "string"
+            },
+            "workflow": {
+              "type": "string"
+            },
+            "access": {
+              "type": "string"
+            },
+            "licenses": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "recipes": {
+              "items": {
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  },
+                  "digest": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "id",
+                  "version",
+                  "digest"
+                ]
+              },
+              "type": "array"
+            },
+            "edges": {
+              "items": {
+                "properties": {
+                  "from": {
+                    "type": "string"
+                  },
+                  "to": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ]
+              },
+              "type": "array"
+            },
+            "inputs": {
+              "items": {
+                "properties": {
+                  "from_recipe": {
+                    "type": "string"
+                  },
+                  "output_path": {
+                    "type": "string"
+                  },
+                  "to_recipe": {
+                    "type": "string"
+                  },
+                  "parameter": {
+                    "type": "string"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "from_recipe",
+                  "output_path",
+                  "to_recipe",
+                  "parameter"
+                ]
+              },
+              "type": "array"
+            }
+          },
+          "type": "object",
+          "required": [
+            "id",
+            "display_name",
+            "description",
+            "engine",
+            "journey",
+            "maturity",
+            "supported_hosts",
+            "engine_versions",
+            "features",
+            "language",
+            "topology",
+            "workflow",
+            "access",
+            "licenses",
+            "recipes",
+            "edges",
+            "inputs"
+          ]
+        },
+        "recipes": {
+          "items": {
+            "properties": {
+              "api_version": {
+                "type": "string"
+              },
+              "id": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "runner": {
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "digest": {
+                    "type": "string"
+                  },
+                  "protocol_version": {
+                    "type": "integer"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "id",
+                  "digest",
+                  "protocol_version"
+                ]
+              },
+              "operations": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "parameters": {
+                "items": {
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "secret": {
+                      "type": "boolean"
+                    },
+                    "default": true
+                  },
+                  "type": "object",
+                  "required": [
+                    "name",
+                    "type",
+                    "required",
+                    "secret"
+                  ]
+                },
+                "type": "array"
+              },
+              "requires": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "sources": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "kind": {
+                      "type": "string"
+                    },
+                    "uri": {
+                      "type": "string"
+                    },
+                    "revision": {
+                      "type": "string"
+                    },
+                    "digest": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "kind",
+                    "uri",
+                    "revision",
+                    "digest"
+                  ]
+                },
+                "type": "array"
+              },
+              "prerequisites": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "network_hosts": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "outputs": {
+                "items": {
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "scope": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "handoff_from": {
+                      "type": "string"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "scope",
+                    "action"
+                  ]
+                },
+                "type": "array"
+              },
+              "licenses": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "access_requirements": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "manual": {
+                "properties": {
+                  "guide_path": {
+                    "type": "string"
+                  },
+                  "guide_digest": {
+                    "type": "string"
+                  },
+                  "canonical_url": {
+                    "type": "string"
+                  },
+                  "operation_steps": {
+                    "additionalProperties": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "type": "object"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "guide_path",
+                  "guide_digest",
+                  "operation_steps"
+                ]
+              },
+              "digest": {
+                "type": "string"
+              }
+            },
+            "type": "object",
+            "required": [
+              "api_version",
+              "id",
+              "version",
+              "description",
+              "operations",
+              "parameters",
+              "requires",
+              "sources",
+              "prerequisites",
+              "network_hosts",
+              "outputs",
+              "licenses",
+              "access_requirements",
+              "manual",
+              "digest"
+            ]
+          },
+          "type": "array"
+        },
+        "guides": {
+          "items": {
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "digest": {
+                "type": "string"
+              },
+              "content": {
+                "type": "string"
+              },
+              "steps": {
+                "items": {
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "operation": {
+                      "type": "string"
+                    },
+                    "native_tool": {
+                      "type": "string"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "preconditions": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "expected_outcome": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "requires_haiven_cli": {
+                      "type": "boolean"
+                    },
+                    "mutations": {
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "operation",
+                    "native_tool",
+                    "action",
+                    "preconditions",
+                    "expected_outcome",
+                    "evidence",
+                    "requires_haiven_cli",
+                    "mutations"
+                  ]
+                },
+                "type": "array"
+              }
+            },
+            "type": "object",
+            "required": [
+              "path",
+              "digest",
+              "content",
+              "steps"
+            ]
+          },
+          "type": "array"
+        },
+        "manual": {
+          "items": {
+            "properties": {
+              "recipe_id": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string"
+              },
+              "guide_path": {
+                "type": "string"
+              },
+              "guide_digest": {
+                "type": "string"
+              },
+              "canonical_url": {
+                "type": "string"
+              },
+              "step_ids": {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              "requires_haiven_cli": {
+                "type": "boolean"
+              }
+            },
+            "type": "object",
+            "required": [
+              "recipe_id",
+              "operation",
+              "guide_path",
+              "guide_digest",
+              "step_ids",
+              "requires_haiven_cli"
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "required": [
+        "catalog_digest",
+        "starter",
+        "recipes",
+        "guides",
+        "manual"
+      ]
+    }
+  ],
+  "title": "haiven sdk starter describe data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

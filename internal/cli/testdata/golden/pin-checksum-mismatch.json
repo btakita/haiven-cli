@@ -1,0 +1,19 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "version",
+  "ok": false,
+  "code": "lock-mismatch",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "pinned-checksum-mismatch",
+      "severity": "error",
+      "message": "haiven 9.9.9 pinned by haiven.toml: checksum mismatch",
+      "path": "haiven.toml",
+      "fix": "Retry; if it persists, do not run the download and report it."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

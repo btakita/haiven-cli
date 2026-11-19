@@ -1,0 +1,21 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "help",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "commands": [
+      {
+        "name": "explain",
+        "usage": "haiven explain <code>",
+        "summary": "Explain an outcome or diagnostic code and its fix.",
+        "network": false,
+        "reads_project": false
+      }
+    ]
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

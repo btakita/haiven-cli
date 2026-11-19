@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api call",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "unknown-parameter",
+      "severity": "error",
+      "message": "GET /apps has no query parameter \"color\"",
+      "fix": "Run `haiven api list --surface <surface>` and check the operation's parameters."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

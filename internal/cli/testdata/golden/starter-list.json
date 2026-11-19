@@ -1,0 +1,173 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk starter list",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "catalog_digest": "sha256:284cf80add8c5e3254f32ee36e7af0634bd510f77a47d396ec3dc69d22e276fb",
+    "catalog_version": "1.0.0",
+    "filters": {
+      "engine": "unity"
+    },
+    "starters": [
+      {
+        "starter": {
+          "id": "unity-bossroom",
+          "display_name": "Unity Boss Room with Haiven",
+          "description": "The standalone Unity 6 Boss Room project with Haiven lobby, chat, rewards, and inventory.",
+          "engine": "unity",
+          "journey": "sample",
+          "maturity": "preview",
+          "supported_hosts": [
+            "linux",
+            "macos",
+            "windows"
+          ],
+          "engine_versions": [
+            "6000.0.52f1"
+          ],
+          "features": [
+            "lobby",
+            "chat",
+            "rewards",
+            "inventory",
+            "message-of-the-day"
+          ],
+          "language": "csharp",
+          "topology": "multiplayer-client",
+          "workflow": "unity-hub-and-editor",
+          "access": "public",
+          "licenses": [
+            "Unity Companion License"
+          ],
+          "recipes": [
+            {
+              "id": "sample/unity-bossroom",
+              "version": "2.0.0",
+              "digest": "sha256:a6b586a3dc859c73503f826d8f5e06076724cc84f89e13c453ce28bfd36cc6a2"
+            }
+          ],
+          "edges": [],
+          "inputs": []
+        },
+        "manual": [
+          {
+            "recipe_id": "sample/unity-bossroom",
+            "operation": "plan",
+            "guide_path": "MANUAL.md",
+            "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+            "step_ids": [
+              "prerequisites"
+            ],
+            "requires_haiven_cli": false
+          },
+          {
+            "recipe_id": "sample/unity-bossroom",
+            "operation": "apply",
+            "guide_path": "MANUAL.md",
+            "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+            "step_ids": [
+              "acquire-boss-room",
+              "check-pinned-packages",
+              "configure-demo",
+              "open-in-unity"
+            ],
+            "requires_haiven_cli": false
+          },
+          {
+            "recipe_id": "sample/unity-bossroom",
+            "operation": "verify",
+            "guide_path": "MANUAL.md",
+            "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+            "step_ids": [
+              "verify-checkout",
+              "play-sample",
+              "record-evidence"
+            ],
+            "requires_haiven_cli": false
+          }
+        ]
+      },
+      {
+        "starter": {
+          "id": "unity-existing",
+          "display_name": "Existing Unity Project with Haiven",
+          "description": "Pin and verify one immutable Haiven Unity SDK revision in a caller-owned existing project.",
+          "engine": "unity",
+          "journey": "integrate",
+          "maturity": "preview",
+          "supported_hosts": [
+            "linux",
+            "macos",
+            "windows"
+          ],
+          "engine_versions": [
+            "2022.3+"
+          ],
+          "features": [
+            "package-integration",
+            "browser-handoff",
+            "rest",
+            "realtime",
+            "offline-check"
+          ],
+          "language": "csharp",
+          "topology": "caller-owned",
+          "workflow": "unity-package-manager",
+          "access": "public",
+          "licenses": [
+            "Haiven SDK license"
+          ],
+          "recipes": [
+            {
+              "id": "sdk/unity-existing",
+              "version": "1.0.2",
+              "digest": "sha256:c00e61831837abf4c6c39c3cddfc9888e968849fdc671acd8573e5be9780f585"
+            }
+          ],
+          "edges": [],
+          "inputs": []
+        },
+        "manual": [
+          {
+            "recipe_id": "sdk/unity-existing",
+            "operation": "plan",
+            "guide_path": "MANUAL.md",
+            "guide_digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+            "step_ids": [
+              "inspect-project"
+            ],
+            "requires_haiven_cli": false
+          },
+          {
+            "recipe_id": "sdk/unity-existing",
+            "operation": "apply",
+            "guide_path": "MANUAL.md",
+            "guide_digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+            "step_ids": [
+              "pin-sdk-package",
+              "import-sdk-package",
+              "wire-sdk"
+            ],
+            "requires_haiven_cli": false
+          },
+          {
+            "recipe_id": "sdk/unity-existing",
+            "operation": "verify",
+            "guide_path": "MANUAL.md",
+            "guide_digest": "sha256:94b747fb12e051e0ecfa081f9e25aaef1169bf1a8781426cb96b7069262014af",
+            "step_ids": [
+              "verify-package-lock",
+              "verify-code-wiring"
+            ],
+            "requires_haiven_cli": false
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

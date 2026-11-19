@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:api-call:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "surface": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string",
+          "description": "The operation's path template."
+        },
+        "url": {
+          "type": "string",
+          "description": "The request URL, query included."
+        },
+        "auth": {
+          "type": "string",
+          "enum": [
+            "none",
+            "bearer",
+            "missing"
+          ],
+          "description": "none: no security declared; bearer: HAIVEN_TOKEN attached; missing: required but HAIVEN_TOKEN is unset."
+        },
+        "content_type": {
+          "type": "string",
+          "description": "The request body's media type, when there is one."
+        },
+        "dry_run": {
+          "type": "boolean"
+        },
+        "response": {
+          "properties": {
+            "status": {
+              "type": "integer"
+            },
+            "content_type": {
+              "type": "string"
+            },
+            "body": {
+              "description": "The response body when it is JSON."
+            },
+            "body_text": {
+              "type": "string",
+              "description": "The response body when it is not JSON, or was cut at the bound."
+            },
+            "error_code": {
+              "type": "string",
+              "description": "The API's own error code (the body's code or error field) on an error status."
+            },
+            "redacted": {
+              "type": "integer",
+              "description": "Token, secret and password fields replaced with [redacted]; --show-secrets keeps them."
+            }
+          },
+          "type": "object",
+          "required": [
+            "status",
+            "content_type",
+            "redacted"
+          ],
+          "description": "Absent on --dry-run and when the API could not be reached."
+        }
+      },
+      "type": "object",
+      "required": [
+        "surface",
+        "method",
+        "path",
+        "url",
+        "auth",
+        "dry_run"
+      ]
+    }
+  ],
+  "title": "haiven api call data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

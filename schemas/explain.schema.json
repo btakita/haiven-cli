@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:explain:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "outcome",
+            "diagnostic"
+          ]
+        },
+        "outcome": {
+          "type": "string",
+          "enum": [
+            "ok",
+            "drift",
+            "invalid-manifest",
+            "lock-mismatch",
+            "conformance-failed",
+            "runner-unavailable",
+            "toolchain-missing",
+            "usage",
+            "internal",
+            "api-error"
+          ]
+        },
+        "exit": {
+          "type": "integer"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "fix": {
+          "type": "string"
+        }
+      },
+      "type": "object",
+      "required": [
+        "code",
+        "kind",
+        "outcome",
+        "exit",
+        "summary"
+      ]
+    }
+  ],
+  "title": "haiven explain data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk fake-server",
+  "ok": false,
+  "code": "runner-unavailable",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "fake-server-unavailable",
+      "severity": "error",
+      "message": "binding no-port: listen tcp: address no-port: missing port in address",
+      "fix": "Pick a free --addr, or a writable --record path."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

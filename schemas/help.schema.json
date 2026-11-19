@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:help:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "commands": {
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The full command name, space-separated for a command in a group."
+              },
+              "group": {
+                "type": "string",
+                "description": "The group the command belongs to; absent for a top-level command."
+              },
+              "usage": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "network": {
+                "type": "boolean",
+                "description": "True when the command may make network calls."
+              },
+              "reads_project": {
+                "type": "boolean",
+                "description": "True when the command reads haiven.toml."
+              }
+            },
+            "type": "object",
+            "required": [
+              "name",
+              "usage",
+              "summary",
+              "network",
+              "reads_project"
+            ]
+          },
+          "type": "array"
+        }
+      },
+      "type": "object",
+      "required": [
+        "commands"
+      ]
+    }
+  ],
+  "title": "haiven help data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

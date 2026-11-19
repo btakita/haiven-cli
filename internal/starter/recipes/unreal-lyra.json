@@ -1,0 +1,26 @@
+{
+  "api_version": "starter-recipe/v1",
+  "id": "unreal/lyra",
+  "version": "1.0.0",
+  "description": "Use native SDK and Unreal tooling to assemble and verify the Lyra integration without redistributing gated content.",
+  "operations": ["plan", "apply", "verify"],
+  "parameters": [],
+  "requires": [],
+  "sources": [],
+  "prerequisites": ["Epic-linked GitHub access", "Unreal Engine"],
+  "network_hosts": [],
+  "outputs": [
+    {"path": "LyraStarterGame", "scope": "tree", "action": "create"}
+  ],
+  "licenses": ["Epic and Lyra access terms apply; content is not redistributed"],
+  "access_requirements": ["Epic entitlement to Lyra content"],
+  "manual": {
+    "guide_path": "guides/unreal-lyra.md",
+    "guide_digest": "sha256:3b27be9a8fa038ff4516732bd01f08d2b8d5aeea981451292d440a0779cb2931",
+    "operation_steps": {
+      "plan": ["unreal-lyra-plan"],
+      "apply": ["unreal-lyra-apply"],
+      "verify": ["unreal-lyra-verify"]
+    }
+  }
+}

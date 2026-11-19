@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api call",
+  "ok": false,
+  "code": "usage",
+  "kit_version": "1.2.3",
+  "data": {},
+  "diagnostics": [
+    {
+      "code": "invalid-request-body",
+      "severity": "error",
+      "message": "--body is not valid JSON",
+      "fix": "Pass --body with a JSON document, @file or @- for stdin."
+    }
+  ],
+  "next": [],
+  "truncated": false
+}

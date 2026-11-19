@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:project:v1",
+  "properties": {
+    "haiven": {
+      "properties": {
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$",
+          "description": "Pinned haiven CLI release, MAJOR.MINOR.PATCH without a leading v."
+        }
+      },
+      "type": "object"
+    }
+  },
+  "type": "object",
+  "title": "haiven.toml",
+  "description": "The haiven project file, written as TOML; this schema describes its decoded shape."
+}

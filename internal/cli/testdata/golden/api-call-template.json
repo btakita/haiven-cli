@@ -1,0 +1,27 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api call",
+  "ok": false,
+  "code": "runner-unavailable",
+  "kit_version": "1.2.3",
+  "data": {
+    "surface": "gaming/v0",
+    "method": "GET",
+    "path": "/apps/{app_id}",
+    "url": "https://api.example.test/v0/apps/a-1",
+    "auth": "none",
+    "dry_run": false
+  },
+  "diagnostics": [
+    {
+      "code": "contract-artifact-unverified",
+      "severity": "error",
+      "message": "API execution is unavailable until an immutable public contract artifact is verified by version and digest",
+      "fix": "Pass --dry-run to inspect a description without sending, or use a CLI release that verifies the published contract artifact."
+    }
+  ],
+  "next": [
+    "Repeat with --dry-run to inspect the request without sending it."
+  ],
+  "truncated": false
+}

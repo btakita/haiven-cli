@@ -1,0 +1,42 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api list",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "surfaces": [
+      {
+        "surface": "example-studio-http-api",
+        "title": "Example Studio HTTP API",
+        "version": "0.1.0-preview",
+        "server": "https://haiven.example/v0",
+        "source": "https://api.example.test/v0/openapi.json",
+        "operations": 2
+      }
+    ],
+    "operations": [
+      {
+        "surface": "example-studio-http-api",
+        "method": "GET",
+        "path": "/apps/tags",
+        "summary": "Every tag, again.",
+        "requires_auth": false,
+        "parameters": [],
+        "body": []
+      },
+      {
+        "surface": "example-studio-http-api",
+        "method": "GET",
+        "path": "/studios",
+        "summary": "Your studios.",
+        "requires_auth": true,
+        "parameters": [],
+        "body": []
+      }
+    ]
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:haiven.dev:cli-data:sdk-starter-verify:v1",
+  "anyOf": [
+    {
+      "type": "object",
+      "maxProperties": 0,
+      "description": "Empty object kept when the command fails before assigning data."
+    },
+    {
+      "properties": {
+        "lock": {
+          "type": "string"
+        },
+        "evidence": {
+          "properties": {
+            "schema": {
+              "type": "string"
+            },
+            "starter_id": {
+              "type": "string"
+            },
+            "catalog_digest": {
+              "type": "string"
+            },
+            "operation": {
+              "type": "string"
+            },
+            "manual": {
+              "items": {
+                "properties": {
+                  "recipe_id": {
+                    "type": "string"
+                  },
+                  "operation": {
+                    "type": "string"
+                  },
+                  "guide_path": {
+                    "type": "string"
+                  },
+                  "guide_digest": {
+                    "type": "string"
+                  },
+                  "canonical_url": {
+                    "type": "string"
+                  },
+                  "step_ids": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "requires_haiven_cli": {
+                    "type": "boolean"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "recipe_id",
+                  "operation",
+                  "guide_path",
+                  "guide_digest",
+                  "step_ids",
+                  "requires_haiven_cli"
+                ]
+              },
+              "type": "array"
+            },
+            "guides": {
+              "items": {
+                "properties": {
+                  "path": {
+                    "type": "string"
+                  },
+                  "digest": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "steps": {
+                    "items": {
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string"
+                        },
+                        "native_tool": {
+                          "type": "string"
+                        },
+                        "action": {
+                          "type": "string"
+                        },
+                        "preconditions": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "expected_outcome": {
+                          "type": "string"
+                        },
+                        "evidence": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "requires_haiven_cli": {
+                          "type": "boolean"
+                        },
+                        "mutations": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        }
+                      },
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "operation",
+                        "native_tool",
+                        "action",
+                        "preconditions",
+                        "expected_outcome",
+                        "evidence",
+                        "requires_haiven_cli",
+                        "mutations"
+                      ]
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "path",
+                  "digest",
+                  "content",
+                  "steps"
+                ]
+              },
+              "type": "array"
+            },
+            "results": {
+              "items": {
+                "properties": {
+                  "api_version": {
+                    "type": "string"
+                  },
+                  "request_id": {
+                    "type": "string"
+                  },
+                  "operation": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  },
+                  "changes": {
+                    "items": {
+                      "properties": {
+                        "path": {
+                          "type": "string"
+                        },
+                        "action": {
+                          "type": "string",
+                          "enum": [
+                            "create",
+                            "replace",
+                            "none"
+                          ]
+                        }
+                      },
+                      "type": "object",
+                      "required": [
+                        "path",
+                        "action"
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "artifacts": {
+                    "items": {
+                      "properties": {
+                        "path": {
+                          "type": "string"
+                        },
+                        "digest": {
+                          "type": "string"
+                        },
+                        "owner": {
+                          "type": "string"
+                        }
+                      },
+                      "type": "object",
+                      "required": [
+                        "path",
+                        "digest",
+                        "owner"
+                      ]
+                    },
+                    "type": "array"
+                  },
+                  "resolved_sources": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  "manual_steps": {
+                    "properties": {
+                      "completed": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "pending": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "type": "object",
+                    "required": [
+                      "completed",
+                      "pending"
+                    ]
+                  },
+                  "warnings": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "errors": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "api_version",
+                  "request_id",
+                  "operation",
+                  "status",
+                  "changes",
+                  "artifacts",
+                  "resolved_sources",
+                  "manual_steps",
+                  "warnings",
+                  "errors"
+                ]
+              },
+              "type": "array"
+            },
+            "drift": {
+              "type": "boolean"
+            }
+          },
+          "type": "object",
+          "required": [
+            "schema",
+            "starter_id",
+            "catalog_digest",
+            "operation",
+            "manual",
+            "guides",
+            "results",
+            "drift"
+          ]
+        }
+      },
+      "type": "object",
+      "required": [
+        "evidence"
+      ]
+    }
+  ],
+  "title": "haiven sdk starter verify data",
+  "description": "Command payload, or an empty object when the command fails before it assigns data. An empty object is not a successful payload."
+}

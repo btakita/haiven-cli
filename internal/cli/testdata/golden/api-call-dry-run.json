@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "api call",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "surface": "gaming/v0",
+    "method": "GET",
+    "path": "/apps",
+    "url": "https://api.example.test/v0/apps?q=boss+room&tag=coop&tag=pvp",
+    "auth": "none",
+    "dry_run": true
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}

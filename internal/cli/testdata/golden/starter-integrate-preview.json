@@ -1,0 +1,223 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "sdk starter integrate",
+  "ok": false,
+  "code": "runner-unavailable",
+  "kit_version": "1.2.3",
+  "data": {
+    "preview": true,
+    "dirty_project": false,
+    "plan": {
+      "schema": "starter-runner/v1",
+      "starter_id": "unity-bossroom",
+      "target": "game",
+      "catalog_digest": "sha256:284cf80add8c5e3254f32ee36e7af0634bd510f77a47d396ec3dc69d22e276fb",
+      "manual": [
+        {
+          "recipe_id": "sample/unity-bossroom",
+          "operation": "plan",
+          "guide_path": "MANUAL.md",
+          "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+          "step_ids": [
+            "prerequisites"
+          ],
+          "requires_haiven_cli": false
+        },
+        {
+          "recipe_id": "sample/unity-bossroom",
+          "operation": "apply",
+          "guide_path": "MANUAL.md",
+          "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+          "step_ids": [
+            "acquire-boss-room",
+            "check-pinned-packages",
+            "configure-demo",
+            "open-in-unity"
+          ],
+          "requires_haiven_cli": false
+        },
+        {
+          "recipe_id": "sample/unity-bossroom",
+          "operation": "verify",
+          "guide_path": "MANUAL.md",
+          "guide_digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+          "step_ids": [
+            "verify-checkout",
+            "play-sample",
+            "record-evidence"
+          ],
+          "requires_haiven_cli": false
+        }
+      ],
+      "guides": [
+        {
+          "path": "MANUAL.md",
+          "digest": "sha256:bba99d541aacde8cf962c0ad27129f00569b7ad547ad89a4c25013ce944939aa",
+          "content": "# Open the Haiven Boss Room sample\n\nBoss Room is a standalone Unity 6 project with the Haiven SDK and demo\npackages already embedded. It follows the Unity Companion License.\nChoose a reviewed release in the [Boss Room repository][boss-room]\nwhen the public preview is available. Resolve the release to its full Git\ncommit and save it as `BOSSROOM_COMMIT` for the shell commands below.\n\n[boss-room]: https://github.com/haiven-dev/haiven-sdk-unity-bossroom\n\n## Plan\n\nInstall Git, Git LFS, and Unity **6000.0.52f1** with an activated license.\nChoose a destination where the `BossRoom` folder does not exist yet.\n\n```haiven-manual-step\n{\n  \"id\": \"prerequisites\",\n  \"operation\": \"plan\",\n  \"native_tool\": \"Git, Git LFS, and Unity Hub\",\n  \"action\": \"Confirm the Boss Room release commit, Git LFS availability, and the pinned Unity Editor.\",\n  \"preconditions\": [\n    \"The reviewed release and exact commit are known.\"\n  ],\n  \"expected_outcome\": \"The developer has the tools and an empty destination for the selected release.\",\n  \"evidence\": [\n    \"The release commit, Editor version, and planned checkout path are recorded.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n## Apply\n\nSet `BOSSROOM_COMMIT` to the reviewed 40-character commit SHA. Run these\ncommands in a POSIX shell, such as Git Bash on Windows.\n\n```sh\ngit clone --no-checkout https://github.com/haiven-dev/haiven-sdk-unity-bossroom.git BossRoom &&\n  git -C BossRoom lfs install --local &&\n  git -C BossRoom checkout --detach \"$BOSSROOM_COMMIT\" &&\n  git -C BossRoom lfs pull &&\n  test \"$(git -C BossRoom rev-parse HEAD)\" = \"$BOSSROOM_COMMIT\"\n```\n\nThe checkout includes both Haiven packages at `Packages/com.haiven.sdk` and\n`Packages/com.haiven.demo.bossroom`. Read the project README for its version\nand the release's game setup.\n\n```haiven-manual-step\n{\n  \"id\": \"acquire-boss-room\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Git and Git LFS\",\n  \"action\": \"Clone the standalone demo, check out the exact reviewed commit, and hydrate Git LFS files.\",\n  \"preconditions\": [\n    \"Git and Git LFS are available and the destination is new.\"\n  ],\n  \"expected_outcome\": \"BossRoom contains the selected release's complete worktree.\",\n  \"evidence\": [\n    \"HEAD equals the recorded release commit.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": [\n    \"BossRoom\"\n  ]\n}\n```\n\n```haiven-manual-step\n{\n  \"id\": \"check-pinned-packages\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Unity project package manifests\",\n  \"action\": \"Confirm the two embedded Haiven packages and the release's tracked Packages/manifest.json.\",\n  \"preconditions\": [\n    \"The standalone project has been checked out.\"\n  ],\n  \"expected_outcome\": \"Package Manager can resolve the packages included in the selected demo release.\",\n  \"evidence\": [\n    \"Both package directories have their package.json files at the selected commit.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\nSet the demo's public integration values in the process environment before\nlaunching Unity. Use the API, realtime, and browser sign-in endpoints for your\npreview environment. Register `http://127.0.0.1:47615/haiven/callback` on your\ngame integration. Set `HAIVEN_DEMO_BASE_URL`, `HAIVEN_DEMO_REALTIME_URL`,\n`HAIVEN_DEMO_SIGN_IN_URL`, `HAIVEN_DEMO_APP_ID`, and\n`HAIVEN_DEMO_INTEGRATION_ID`. For chat and rewards, set\n`HAIVEN_DEMO_CHANNEL_ID` and `HAIVEN_DEMO_REWARD_REF`. Keep integration keys\nand player tokens out of project files. Player sign-in runs in the browser.\n\nOpen `BossRoom` using Unity 6000.0.52f1 with that environment. Open\n`Assets/Scenes/Startup.unity` and allow import and compilation to finish.\n\n```haiven-manual-step\n{\n  \"id\": \"configure-demo\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Haiven game integration and Unity process environment\",\n  \"action\": \"Set public app and integration values and register the exact loopback redirect.\",\n  \"preconditions\": [\n    \"The preview environment and an authorized app integration are available.\"\n  ],\n  \"expected_outcome\": \"The demo can start browser sign-in with the configured public values.\",\n  \"evidence\": [\n    \"The app integration lists the expected redirect and project files contain no credentials.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n```haiven-manual-step\n{\n  \"id\": \"open-in-unity\",\n  \"operation\": \"apply\",\n  \"native_tool\": \"Unity Editor 6000.0.52f1\",\n  \"action\": \"Open the pinned project and load the Startup scene after import succeeds.\",\n  \"preconditions\": [\n    \"The checkout is hydrated and the Unity process inherits the demo configuration.\"\n  ],\n  \"expected_outcome\": \"The Startup scene opens in the matching Editor.\",\n  \"evidence\": [\n    \"The Unity Console reports no package or compilation error.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n## Verify\n\nRun `git -C BossRoom lfs fsck --dry-run --objects HEAD` and compare\n`git -C BossRoom rev-parse HEAD` with the reviewed commit. In the Startup\nscene, enter Play Mode and complete browser sign-in. Verify that the player\nconnects and can exercise the lobby and the features enabled for the app.\nKeep the release commit, Editor version, and observed results with your\ntest record.\n\n```haiven-manual-step\n{\n  \"id\": \"verify-checkout\",\n  \"operation\": \"verify\",\n  \"native_tool\": \"Git and Git LFS\",\n  \"action\": \"Compare the checkout to the reviewed commit and verify the required LFS objects.\",\n  \"preconditions\": [\n    \"The standalone release is present locally.\"\n  ],\n  \"expected_outcome\": \"The worktree has the intended commit and its required assets.\",\n  \"evidence\": [\n    \"Git reports the selected SHA and the dry-run Git LFS check passes.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n```haiven-manual-step\n{\n  \"id\": \"play-sample\",\n  \"operation\": \"verify\",\n  \"native_tool\": \"Unity Editor Play Mode\",\n  \"action\": \"Start the Startup scene, sign in through the browser, and exercise the enabled demo flows.\",\n  \"preconditions\": [\n    \"The correct Editor imported the project and the preview integration is configured.\"\n  ],\n  \"expected_outcome\": \"The sample connects and its enabled lobby, chat, or reward flows can be tested.\",\n  \"evidence\": [\n    \"Record the observed in-game outcome and any Unity Console errors.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n\n```haiven-manual-step\n{\n  \"id\": \"record-evidence\",\n  \"operation\": \"verify\",\n  \"native_tool\": \"Test notes\",\n  \"action\": \"Record the release commit, Editor version, and the outcome of each demo check.\",\n  \"preconditions\": [\n    \"Checkout and Play Mode checks have been attempted.\"\n  ],\n  \"expected_outcome\": \"The test record identifies the exact sample and preview environment.\",\n  \"evidence\": [\n    \"The record contains the commit, Unity version, and observed results without credentials.\"\n  ],\n  \"requires_haiven_cli\": false,\n  \"mutations\": []\n}\n```\n",
+          "steps": [
+            {
+              "id": "prerequisites",
+              "operation": "plan",
+              "native_tool": "Git, Git LFS, and Unity Hub",
+              "action": "Confirm the Boss Room release commit, Git LFS availability, and the pinned Unity Editor.",
+              "preconditions": [
+                "The reviewed release and exact commit are known."
+              ],
+              "expected_outcome": "The developer has the tools and an empty destination for the selected release.",
+              "evidence": [
+                "The release commit, Editor version, and planned checkout path are recorded."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "acquire-boss-room",
+              "operation": "apply",
+              "native_tool": "Git and Git LFS",
+              "action": "Clone the standalone demo, check out the exact reviewed commit, and hydrate Git LFS files.",
+              "preconditions": [
+                "Git and Git LFS are available and the destination is new."
+              ],
+              "expected_outcome": "BossRoom contains the selected release's complete worktree.",
+              "evidence": [
+                "HEAD equals the recorded release commit."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": [
+                "BossRoom"
+              ]
+            },
+            {
+              "id": "check-pinned-packages",
+              "operation": "apply",
+              "native_tool": "Unity project package manifests",
+              "action": "Confirm the two embedded Haiven packages and the release's tracked Packages/manifest.json.",
+              "preconditions": [
+                "The standalone project has been checked out."
+              ],
+              "expected_outcome": "Package Manager can resolve the packages included in the selected demo release.",
+              "evidence": [
+                "Both package directories have their package.json files at the selected commit."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "configure-demo",
+              "operation": "apply",
+              "native_tool": "Haiven game integration and Unity process environment",
+              "action": "Set public app and integration values and register the exact loopback redirect.",
+              "preconditions": [
+                "The preview environment and an authorized app integration are available."
+              ],
+              "expected_outcome": "The demo can start browser sign-in with the configured public values.",
+              "evidence": [
+                "The app integration lists the expected redirect and project files contain no credentials."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "open-in-unity",
+              "operation": "apply",
+              "native_tool": "Unity Editor 6000.0.52f1",
+              "action": "Open the pinned project and load the Startup scene after import succeeds.",
+              "preconditions": [
+                "The checkout is hydrated and the Unity process inherits the demo configuration."
+              ],
+              "expected_outcome": "The Startup scene opens in the matching Editor.",
+              "evidence": [
+                "The Unity Console reports no package or compilation error."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "verify-checkout",
+              "operation": "verify",
+              "native_tool": "Git and Git LFS",
+              "action": "Compare the checkout to the reviewed commit and verify the required LFS objects.",
+              "preconditions": [
+                "The standalone release is present locally."
+              ],
+              "expected_outcome": "The worktree has the intended commit and its required assets.",
+              "evidence": [
+                "Git reports the selected SHA and the dry-run Git LFS check passes."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "play-sample",
+              "operation": "verify",
+              "native_tool": "Unity Editor Play Mode",
+              "action": "Start the Startup scene, sign in through the browser, and exercise the enabled demo flows.",
+              "preconditions": [
+                "The correct Editor imported the project and the preview integration is configured."
+              ],
+              "expected_outcome": "The sample connects and its enabled lobby, chat, or reward flows can be tested.",
+              "evidence": [
+                "Record the observed in-game outcome and any Unity Console errors."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            },
+            {
+              "id": "record-evidence",
+              "operation": "verify",
+              "native_tool": "Test notes",
+              "action": "Record the release commit, Editor version, and the outcome of each demo check.",
+              "preconditions": [
+                "Checkout and Play Mode checks have been attempted."
+              ],
+              "expected_outcome": "The test record identifies the exact sample and preview environment.",
+              "evidence": [
+                "The record contains the commit, Unity version, and observed results without credentials."
+              ],
+              "requires_haiven_cli": false,
+              "mutations": []
+            }
+          ]
+        }
+      ],
+      "results": [
+        {
+          "api_version": "starter-runner/v1",
+          "request_id": "unity-bossroom-plan-0",
+          "operation": "plan",
+          "status": "manual-required",
+          "changes": [
+            {
+              "path": "BossRoom",
+              "action": "create"
+            }
+          ],
+          "artifacts": [],
+          "resolved_sources": {},
+          "manual_steps": {
+            "completed": [],
+            "pending": [
+              "prerequisites"
+            ]
+          },
+          "warnings": [],
+          "errors": []
+        }
+      ]
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "starter-manual-required",
+      "severity": "error",
+      "message": "normative native guide steps remain pending",
+      "fix": "Follow the guide and stable step references in the result; the haiven CLI is not required."
+    }
+  ],
+  "next": [
+    "Follow MANUAL.md steps prerequisites with native tools; haiven CLI is optional.",
+    "Follow MANUAL.md steps acquire-boss-room, check-pinned-packages, configure-demo, open-in-unity with native tools; haiven CLI is optional.",
+    "Follow MANUAL.md steps verify-checkout, play-sample, record-evidence with native tools; haiven CLI is optional."
+  ],
+  "truncated": false
+}

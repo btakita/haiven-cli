@@ -1,0 +1,18 @@
+{
+  "schema": "haiven.dev/cli-result/v1",
+  "command": "explain",
+  "ok": true,
+  "code": "ok",
+  "kit_version": "1.2.3",
+  "data": {
+    "code": "lock-mismatch",
+    "kind": "outcome",
+    "outcome": "lock-mismatch",
+    "exit": 4,
+    "summary": "Pinned bytes do not match what is on disk or downloaded.",
+    "fix": "Restore the pinned revision; never edit a lock by hand."
+  },
+  "diagnostics": [],
+  "next": [],
+  "truncated": false
+}
